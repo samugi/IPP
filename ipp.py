@@ -69,7 +69,6 @@ for i in range (nextCommentIndex, -1, -1):
     c = Comment(commentsJArr[i]["id"], commentsJArr[i]["text"])
     commentsList.append(c)
     #TODO SEND THE COMMANDS SOMEWHERE FROM HERE...
-    print("Extracted command is: " + str(c.command))
 
 #Updating the last used comment in the configs
 config['DEFAULT']['lastUsedCommentId'] = commentsJArr[0]["id"]
