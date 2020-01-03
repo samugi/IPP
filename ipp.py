@@ -6,6 +6,9 @@ import datetime
 import autoScript
 import time
 from Comment import Comment
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 config = configparser.ConfigParser()
 config.sections()
@@ -15,12 +18,22 @@ ACCESS_TOKEN = config['DEFAULT']['accessToken']
 INSTAGRAM_BUSINESS_USER_ID = config['DEFAULT']['instagramBusinessUserId']
 FACEBOOK_APP_ID= config['DEFAULT']['facebookAppId']
 FACEBOOK_APP_SECRET= config['DEFAULT']['facebookAppSecret']
+CLOUDINARY_CLOUD_NAME = config['CLOUDINARY']['cloud_name']
+CLOUDINARY_API_KEY = config['CLOUDINARY']['api_key']
+CLOUDINARY_API_SECRET = config['CLOUDINARY']['api_secret']
 
 def findCommentPosition (jsonArr, commentId):
     for i in range(len(jsonArr)):
         if jsonArr[i]["id"] == commentId:
            return i
     return -1
+
+#Setting up Cloudinary config
+cloudinary.config( 
+  cloud_name = CLOUDINARY_CLOUD_NAME, 
+  api_key = CLOUDINARY_API_KEY, 
+  api_secret = CLOUDINARY_API_SECRET 
+)
 
 #Getting a refresh token if not yet refreshed today
 lastRefresh = datetime.datetime.strptime(config['DEFAULT']['lastTokenRefresh'],"%Y-%m-%d")  if config['DEFAULT']['lastTokenRefresh'] != "" else datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
@@ -39,7 +52,7 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
     with open('config.txt', 'w') as configfile:
         config.write(configfile)
 
-
+#FIXME reduce the requests in the loop to 1 and only execute the other requests when necessary (once a day?) to avoid exceeding rate limits
 while True:
     #Executing a request fetching all media for INSTAGRAM_BUSINESS_USER_ID
     media_curl_cmd = ['curl',
@@ -51,7 +64,7 @@ while True:
     lastPost = json.loads(media_response)["data"][0]["id"]
 
     #Fetching all comments from last post
-    comments_curl_cmd = ['curl',
+    comments_curl_cmd = ['curl', 
                     "https://graph.facebook.com/v5.0/" + lastPost + "/comments?access_token=" + ACCESS_TOKEN]
     comments_response = subprocess.Popen(comments_curl_cmd,
                                     stdout = subprocess.PIPE,
@@ -79,3 +92,19 @@ while True:
 
     autoScript.controller(commentsList)
     time.sleep(20)
+
+
+##start testing post media
+#cloudinary.uploader.upload("my_picture.jpg", public_id = 'abcdefg')
+#url = cloudinary.utils.cloudinary_url("abcdefg.jpg")
+##not available due to instagram limitations: only partners can post via API
+#post_curl_cmd = ['curl', '-X',
+#    'POST',
+#                "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?image_url=" + url[0] + "?access_token=" + ACCESS_TOKEN + "&caption=#poketest"]
+#print("siamo qui 2")                
+#post_response = subprocess.Popen(post_curl_cmd,
+#                                stdout = subprocess.PIPE,
+#                                stderr = subprocess.PIPE).communicate()[0]
+#print(post_response)
+#exit()
+##end testing post media

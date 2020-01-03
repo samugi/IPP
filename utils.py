@@ -91,7 +91,7 @@ def convertCommandInEnum(command):
 	elif "p" in command:
 		return 7
 
-def stampWindow(path,name)
+def stampWindow(path,name):
 	keyboard.press_and_release("alt+print screen")
 	sleep(.500)
 	img = ImageGrab.grabclipboard()
@@ -142,7 +142,7 @@ def sendCommand(command):
 		keyboard.release('p')
 		print("Button pressed: START")
 
-def stampWindow()
+def stampWindow():
 	keyboard.press_and_release("alt+print screen")		
 
 def sendCommands(command, n):
