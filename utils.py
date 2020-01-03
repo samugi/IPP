@@ -6,6 +6,7 @@ import keyboard
 import time
 from time import sleep
 from Comment import Comment
+from PIL import ImageGrab
 
 def is_win_ok(hwnd, starttext):
     s = win32gui.GetWindowText(hwnd)
@@ -90,6 +91,12 @@ def convertCommandInEnum(command):
 	elif "p" in command:
 		return 7
 
+def stampWindow(path,name)
+	keyboard.press_and_release("alt+print screen")
+	sleep(.500)
+	img = ImageGrab.grabclipboard()
+	img.save(path+name, 'JPEG')
+	
 def sendCommand(command):
 	command = convertCommandInEnum(command)
 	if command == 1:	
