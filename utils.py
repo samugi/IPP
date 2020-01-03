@@ -134,7 +134,10 @@ def sendCommand(command):
 		time.sleep(.250)
 		keyboard.release('p')
 		print("Button pressed: START")
-		
+
+def stampWindow()
+	keyboard.press_and_release("alt+print screen")		
+
 def sendCommands(command, n):
 	for x in range(1, int(n)):
 		sendCommand(command)
