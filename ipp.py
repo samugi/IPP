@@ -22,6 +22,9 @@ CLOUDINARY_CLOUD_NAME = config['CLOUDINARY']['cloud_name']
 CLOUDINARY_API_KEY = config['CLOUDINARY']['api_key']
 CLOUDINARY_API_SECRET = config['CLOUDINARY']['api_secret']
 
+newPost = False #FIXME
+lastPost = config['DEFAULT']['lastPost']
+
 def findCommentPosition (jsonArr, commentId):
     for i in range(len(jsonArr)):
         if jsonArr[i]["id"] == commentId:
@@ -55,24 +58,25 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
 #FIXME reduce the requests in the loop to 1 and only execute the other requests when necessary (once a day?) to avoid exceeding rate limits
 while True:
     #Executing a request fetching all media for INSTAGRAM_BUSINESS_USER_ID
-    media_curl_cmd = ['curl',
-                    "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN]
-    media_response = subprocess.Popen(media_curl_cmd,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.PIPE).communicate()[0]
-    #Fetching last post                                  
-    lastPost = json.loads(media_response)["data"][0]["id"]
+    #TODO we can avoid this call to execute every time by storing a "new post" boolean somewhere (webhooks?)
+    if newPost :
+        media_curl_cmd = ['curl',
+                        "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN]
+        media_response = subprocess.Popen(media_curl_cmd,
+                                        stdout = subprocess.PIPE,
+                                        stderr = subprocess.PIPE).communicate()[0]
+        #Fetching last post from IG                                
+        lastPost = json.loads(media_response)["data"][0]["id"]
 
     #Fetching all comments from last post
     comments_curl_cmd = ['curl', 
-                    "https://graph.facebook.com/v5.0/" + lastPost + "/comments?access_token=" + ACCESS_TOKEN]
+                    "https://graph.facebook.com/v5.0/" + lastPost + "/comments?fields=like_count,hidden,id,media,text,timestamp,username,replies,user&access_token=" + ACCESS_TOKEN]
     comments_response = subprocess.Popen(comments_curl_cmd,
                                     stdout = subprocess.PIPE,
                                     stderr = subprocess.PIPE).communicate()[0]
     commentsJArr = json.loads(comments_response)["data"]
-
     #Getting the position in the array "comments" of the last used comment 
-    lastUsedCommentPosition = findCommentPosition(commentsJArr, config['DEFAULT']['lastUsedCommentId']) if config['DEFAULT']['lastUsedCommentId'] != "" else -1;
+    lastUsedCommentPosition = findCommentPosition(commentsJArr, config['DEFAULT']['lastUsedCommentId']) if config['DEFAULT']['lastUsedCommentId'] != "" else -1
 
     #Fetching the next comment from the array
     nextCommentIndex = lastUsedCommentPosition - 1 if lastUsedCommentPosition > 0 else lastUsedCommentPosition
@@ -80,9 +84,11 @@ while True:
     nextCommentText = nextComment["text"]
 
     #Creating list of our Comment Objects... do we really need a list?
+    #TODO add all the necessary fields in Comment
     commentsList = []
     for i in range (nextCommentIndex, -1, -1):
         c = Comment(commentsJArr[i]["id"], commentsJArr[i]["text"])
+        c.username = commentsJArr[i]["username"]
         commentsList.append(c)
 
     #Updating the last used comment in the configs
