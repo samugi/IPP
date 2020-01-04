@@ -112,5 +112,5 @@ def stampWindow():
 	keyboard.press_and_release("alt+print screen")		
 
 def sendCommands(command, n):
-	for x in range(1, int(n)):
+	for x in range(0, int(n)):
 		sendCommand(command)
