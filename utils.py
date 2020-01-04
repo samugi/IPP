@@ -2,8 +2,9 @@
 #import win32con
 #import win32api
 import random
-import keyboard
+import pyautogui
 import time
+import keyboard
 from time import sleep
 from Comment import Comment
 #from PIL import ImageGrab
@@ -66,45 +67,45 @@ def sendCommand(command):
 	command = convertCommandInEnum(command)
 	if command == 1:	
 		#press A
-		keyboard.press('a')
+		pyautogui.keyDown('a')
 		time.sleep(.250)
-		keyboard.release('a')
+		pyautogui.keyUp('a')
 		print("Button pressed: A")
 	elif command == 2:
 		#press Z
-		keyboard.press('z')
+		pyautogui.keyDown('z')
 		time.sleep(.250)
-		keyboard.release('z')
+		pyautogui.keyUp('z')
 		print("Button pressed: B")
 	elif command == 3:
 		#press I (UP)
-		keyboard.press('i')
+		pyautogui.keyDown('i')
 		time.sleep(.250)
-		keyboard.release('i')
+		pyautogui.keyUp('i')
 		print("Button pressed: Arrow UP")
 	elif command == 4:
 		#press K (DOWN)
-		keyboard.press('k')
+		pyautogui.keyDown('k')
 		time.sleep(.250)
-		keyboard.release('k')
+		pyautogui.keyUp('k')
 		print("Button pressed: Arrow DOWN")
 	elif command == 5:
 		#press J (LEFT)
-		keyboard.press('j')
+		pyautogui.keyDown('j')
 		time.sleep(.250)
-		keyboard.release('j')
+		pyautogui.keyUp('j')
 		print("Button pressed: Arrow LEFT")
 	elif command == 6:
 		#press L (RIGHT)
-		keyboard.press('l')
+		pyautogui.keyDown('l')
 		time.sleep(.250)
-		keyboard.release('l')
+		pyautogui.keyUp('l')
 		print("Button pressed: Arrow RIGHT")
 	elif command == 7:
 		#press P (start)
-		keyboard.press('p')
+		pyautogui.keyDown('p')
 		time.sleep(.250)
-		keyboard.release('p')
+		pyautogui.keyUp('p')
 		print("Button pressed: START")
 
 def stampWindow():
