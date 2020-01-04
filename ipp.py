@@ -1,5 +1,4 @@
 import urllib
-import subprocess
 import json
 import configparser
 import datetime
@@ -38,14 +37,11 @@ cloudinary.config(
 
 #Getting a refresh token if not yet refreshed today
 lastRefresh = datetime.datetime.strptime(config['DEFAULT']['lastTokenRefresh'],"%Y-%m-%d")  if config['DEFAULT']['lastTokenRefresh'] != "" else datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
-print("last refr: " + str(lastRefresh))
+
 if (datetime.datetime.now() - lastRefresh).days > 0 :
-    print("Refreshing token...")
-    getRefreshToken_curl_cmd = ['curl',
-                  "https://graph.facebook.com/v5.0/oauth/access_token?grant_type=fb_exchange_token&client_id="+FACEBOOK_APP_ID+"&client_secret="+FACEBOOK_APP_SECRET+"&fb_exchange_token="+ACCESS_TOKEN]
-    getRefreshToken_response = subprocess.Popen(getRefreshToken_curl_cmd,
-                                  stdout = subprocess.PIPE,
-                                  stderr = subprocess.PIPE).communicate()[0].decode("utf-8") 
+    print("Refreshing token...") 
+    getRefreshToken_response = utils.execWithOutput(['curl',
+                  "https://graph.facebook.com/v5.0/oauth/access_token?grant_type=fb_exchange_token&client_id="+FACEBOOK_APP_ID+"&client_secret="+FACEBOOK_APP_SECRET+"&fb_exchange_token="+ACCESS_TOKEN]) 
     ACCESS_TOKEN = json.loads(getRefreshToken_response)["access_token"]
     #Update last token and refresh date in config file
     config['DEFAULT']['lastTokenRefresh'] = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -58,23 +54,17 @@ lastPostCheck = datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
 while True:
     #If never checked in the last hour...
     if (datetime.datetime.now() - lastPostCheck).seconds//3600 > 0 :
+        print("Fetcing last post foar IG business user. Wait 18 seconds...")
         lastPostCheck = datetime.datetime.now()
         #Fetching last post for INSTAGRAM_BUSINESS_USER_ID
-        media_curl_cmd = ['curl',
-                        "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN]
-        media_response = subprocess.Popen(media_curl_cmd,
-                                        stdout = subprocess.PIPE,
-                                        stderr = subprocess.PIPE).communicate()[0]
+        media_response =  utils.execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN])
         #Fetching last post from IG                                
         lastPost = json.loads(media_response)["data"][0]["id"]
         time.sleep(18)
 
     #Fetching all comments from last post
-    comments_curl_cmd = ['curl', 
-                    "https://graph.facebook.com/v5.0/" + lastPost + "/comments?fields=like_count,hidden,id,media,text,timestamp,username,replies,user&access_token=" + ACCESS_TOKEN]
-    comments_response = subprocess.Popen(comments_curl_cmd,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.PIPE).communicate()[0]
+    print("Fetcing all comments from last post...")
+    comments_response = utils.execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + lastPost + "/comments?fields=like_count,hidden,id,media,text,timestamp,username,replies,user&access_token=" + ACCESS_TOKEN])
     commentsJArr = json.loads(comments_response)["data"]
     #Getting the position in the array "comments" of the last used comment 
     lastUsedCommentPosition = findCommentPosition(commentsJArr, config['DEFAULT']['lastUsedCommentId']) if config['DEFAULT']['lastUsedCommentId'] != "" else -1
@@ -85,14 +75,7 @@ while True:
     nextCommentText = nextComment["text"]
 
     #Creating list of our Comment Objects
-    commentsList = []
-    for i in range (nextCommentIndex, -1, -1):
-        c = Comment(commentsJArr[i]["id"], commentsJArr[i]["text"])
-        c.username = commentsJArr[i]["username"]
-        c.likeCount = commentsJArr[i]["like_count"]
-        c.repliesCount = len(commentsJArr[i]["replies"]["data"]) if "replies" in commentsJArr[i] else 0
-        c.timestamp = commentsJArr[i]["timestamp"]
-        commentsList.append(c)
+    commentsList = utils.fillCommentsList(nextCommentIndex, commentsJArr)
 
     #Updating the last used comment in the configs
     config['DEFAULT']['lastUsedCommentId'] = commentsJArr[0]["id"]
@@ -100,7 +83,7 @@ while True:
             config.write(configfile)
 
     autoScript.controller(commentsList)
-    
+    print("Now sleeping for 20 sec")
     time.sleep(20)
 
 

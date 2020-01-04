@@ -3,6 +3,7 @@
 #import win32api
 import random
 import pyautogui
+import subprocess
 import time
 import keyboard
 import datetime
@@ -115,3 +116,17 @@ def stampWindow():
 def sendCommands(command, n):
 	for x in range(0, int(n)):
 		sendCommand(command)
+
+def execWithOutput(command):
+	return subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()[0].decode("utf-8") 
+
+def fillCommentsList(nextCommentIndex, commentsJArr):
+	commentsList = []
+	for i in range (nextCommentIndex, -1, -1):
+		c = Comment(commentsJArr[i]["id"], commentsJArr[i]["text"])
+		c.username = commentsJArr[i]["username"]
+		c.likeCount = commentsJArr[i]["like_count"]
+		c.repliesCount = len(commentsJArr[i]["replies"]["data"]) if "replies" in commentsJArr[i] else 0
+		c.timestamp = commentsJArr[i]["timestamp"]
+		commentsList.append(c)
+	return commentsList
