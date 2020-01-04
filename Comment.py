@@ -14,7 +14,6 @@ class Comment:
     @username.setter
     def username(self, value):
         self._username = value
-        print("called setter")
 
     @property
     def text(self):
@@ -23,3 +22,29 @@ class Comment:
     @property
     def id(self):
         return self._id
+    
+
+
+    @property
+    def likeCount(self):
+        return self._likeCount
+
+    @likeCount.setter
+    def likeCount(self, value):
+        self._likeCount = value
+    
+    @property
+    def repliesCount(self):
+        return self._repliesCount
+
+    @repliesCount.setter
+    def repliesCount(self, value):
+        self._repliesCount = value
+    
+    @property
+    def timestamp(self):
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, value):
+        self._timestamp = value

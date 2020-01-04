@@ -89,6 +89,9 @@ while True:
     for i in range (nextCommentIndex, -1, -1):
         c = Comment(commentsJArr[i]["id"], commentsJArr[i]["text"])
         c.username = commentsJArr[i]["username"]
+        c.likeCount = commentsJArr[i]["like_count"]
+        c.repliesCount = len(commentsJArr[i]["replies"]["data"]) if "replies" in commentsJArr[i] else 0
+        c.timestamp = commentsJArr[i]["timestamp"]
         commentsList.append(c)
 
     #Updating the last used comment in the configs
