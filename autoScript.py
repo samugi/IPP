@@ -1,14 +1,13 @@
 import utils
-import win32gui
 import time
 
 def controller (commentsArray):
-	hwndMain = utils.main()#win32gui.FindWindow("Notepad", "Untitled - Notepad")
-	print(hwndMain) #you can use this to see main/parent Unique ID
+	#hwndMain = utils.main()#win32gui.FindWindow("Notepad", "Untitled - Notepad")
+	#print(hwndMain) #you can use this to see main/parent Unique ID
 
-	hwndChild =  hwndMain #win32gui.GetWindow(hwndMain, win32con.GW_CHILD)
-	win32gui.SetForegroundWindow(hwndChild)
-	print(hwndChild)  #you can use this to see sub/child Unique ID
+	#hwndChild =  hwndMain #win32gui.GetWindow(hwndMain, win32con.GW_CHILD)
+	#win32gui.SetForegroundWindow(hwndChild)
+	#print(hwndChild)  #you can use this to see sub/child Unique ID
 
 	for comment in commentsArray:
 		words = comment.text.split(" ")
