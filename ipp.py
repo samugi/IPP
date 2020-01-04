@@ -9,6 +9,7 @@ from Comment import Comment
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import utils
 
 config = configparser.ConfigParser()
 config.sections()
@@ -98,6 +99,11 @@ while True:
             config.write(configfile)
 
     autoScript.controller(commentsList)
+
+    #testing screenshot
+    name = datetime.datetime.now().timestamp()
+    utils.stampWindowPath(".", name)
+    
     time.sleep(20)
 
 

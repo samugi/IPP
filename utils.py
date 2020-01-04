@@ -5,9 +5,12 @@ import random
 import pyautogui
 import time
 import keyboard
+import datetime
 from time import sleep
 from Comment import Comment
 #from PIL import ImageGrab
+
+PATH = "./screenshots"
 
 def convertCommandInEnum(command):
 	if "up" in command:
@@ -57,8 +60,8 @@ def convertCommandInEnum(command):
 	elif "p" in command:
 		return 7
 
-def stampWindow(path,name):
-	keyboard.press_and_release("alt+print screen")
+def stampWindowPath(path,name):
+	pyautogui.hotkey('alt', 'print screen')
 	sleep(.500)
 	#img = ImageGrab.grabclipboard()
 	#img.save(path+name, 'JPEG')
