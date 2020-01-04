@@ -23,9 +23,6 @@ CLOUDINARY_CLOUD_NAME = config['CLOUDINARY']['cloud_name']
 CLOUDINARY_API_KEY = config['CLOUDINARY']['api_key']
 CLOUDINARY_API_SECRET = config['CLOUDINARY']['api_secret']
 
-newPost = False #FIXME
-lastPost = config['DEFAULT']['lastPost']
-
 def findCommentPosition (jsonArr, commentId):
     for i in range(len(jsonArr)):
         if jsonArr[i]["id"] == commentId:
@@ -56,10 +53,13 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
     with open('config.txt', 'w') as configfile:
         config.write(configfile)
 
+lastPostCheck = datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
+
 while True:
-    #Executing a request fetching all media for INSTAGRAM_BUSINESS_USER_ID
-    #TODO we can avoid this call to execute every time by storing a "new post" boolean somewhere (webhooks?)
-    if lastPost == "" or newPost :
+    #If never checked in the last hour...
+    if (datetime.datetime.now() - lastPostCheck).seconds//3600 > 0 :
+        lastPostCheck = datetime.datetime.now()
+        #Fetching last post for INSTAGRAM_BUSINESS_USER_ID
         media_curl_cmd = ['curl',
                         "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN]
         media_response = subprocess.Popen(media_curl_cmd,
@@ -67,6 +67,7 @@ while True:
                                         stderr = subprocess.PIPE).communicate()[0]
         #Fetching last post from IG                                
         lastPost = json.loads(media_response)["data"][0]["id"]
+        time.sleep(18)
 
     #Fetching all comments from last post
     comments_curl_cmd = ['curl', 
