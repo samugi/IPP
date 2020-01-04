@@ -99,10 +99,6 @@ while True:
             config.write(configfile)
 
     autoScript.controller(commentsList)
-
-    #testing screenshot
-    name = datetime.datetime.now().timestamp()
-    utils.stampWindowPath(".", name)
     
     time.sleep(20)
 

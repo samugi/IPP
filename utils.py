@@ -10,8 +10,6 @@ from time import sleep
 from Comment import Comment
 #from PIL import ImageGrab
 
-PATH = "./screenshots"
-
 def convertCommandInEnum(command):
 	if "up" in command:
 		return 3
