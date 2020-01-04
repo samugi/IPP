@@ -1,6 +1,6 @@
-import win32gui
-import win32con
-import win32api
+#import win32gui
+#import win32con
+#import win32api
 import random
 import keyboard
 import time
@@ -8,41 +8,6 @@ from time import sleep
 from Comment import Comment
 from PIL import ImageGrab
 
-def is_win_ok(hwnd, starttext):
-    s = win32gui.GetWindowText(hwnd)
-    if s.startswith(starttext):
-            print(s)
-            global MAIN_HWND
-            MAIN_HWND = hwnd
-            return None
-    return 1
-
-
-def find_main_window(starttxt):
-    global MAIN_HWND
-    win32gui.EnumChildWindows(0, is_win_ok, starttxt)
-    return MAIN_HWND
-
-
-def winfun(hwnd, lparam):
-    s = win32gui.GetWindowText(hwnd)
-    if len(s) > 3:
-        print("winfun, child_hwnd: %d   txt: %s" % (hwnd, s))
-    return 1
-
-def main():
-    main_app = 'VisualBoyAdvance-'
-    hwnd = win32gui.FindWindow(None, main_app)
-    print("STEP 1")
-    print(hwnd)
-    if hwnd < 1:
-        print("STEP 2")
-        hwnd = find_main_window(main_app)
-        win32gui.EnumChildWindows(hwnd, winfun, None)
-    print("STEP 3")
-    print(hwnd)
-    return hwnd
-	
 def convertCommandInEnum(command):
 	if "up" in command:
 		return 3
