@@ -58,7 +58,7 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
 while True:
     #Executing a request fetching all media for INSTAGRAM_BUSINESS_USER_ID
     #TODO we can avoid this call to execute every time by storing a "new post" boolean somewhere (webhooks?)
-    if newPost :
+    if lastPost == "" || newPost :
         media_curl_cmd = ['curl',
                         "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN]
         media_response = subprocess.Popen(media_curl_cmd,
