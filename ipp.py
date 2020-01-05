@@ -9,10 +9,15 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import utils
+import sys
+
+if len(sys.argv) == 1:
+    print("Usage: $python ipp.py <config_file>")
+    exit()
 
 config = configparser.ConfigParser()
 config.sections()
-config.read('config.txt')
+config.read(sys.argv[1])
 
 ACCESS_TOKEN = config['DEFAULT']['accessToken']
 INSTAGRAM_BUSINESS_USER_ID = config['DEFAULT']['instagramBusinessUserId']
@@ -35,6 +40,8 @@ cloudinary.config(
   api_secret = CLOUDINARY_API_SECRET 
 )
 
+
+
 #Getting a refresh token if not yet refreshed today
 lastRefresh = datetime.datetime.strptime(config['DEFAULT']['lastTokenRefresh'],"%Y-%m-%d")  if config['DEFAULT']['lastTokenRefresh'] != "" else datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
 
@@ -54,6 +61,8 @@ lastPostCheck = datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
 while True:
     #If never checked in the last hour...
     if (datetime.datetime.now() - lastPostCheck).seconds//3600 > 0 :
+        print("Taking a screenshot")
+        utils.stampWindowPath("./screenshots/", str(round(time.time()))+".jpg")
         print("Fetcing last post foar IG business user. Wait 18 seconds...")
         lastPostCheck = datetime.datetime.now()
         #Fetching last post for INSTAGRAM_BUSINESS_USER_ID

@@ -1,0 +1,13 @@
+[DEFAULT]
+accesstoken = EAAIs3FRYYCoBANhkV6ZAtLN7ZBjvkkZBBZCYLLAPMGbA97eIhnp8yZB257EUZA4oU04LA3YS2CsTf7YYrMQ4PsfZCWa2YVBWyfEuxRkL7QSUThRu5WFLnTwkzU7Tm8DIOcBAXxqrZBdrrzotGwOA1UwCq9AczEwt8UG3Wu5emvjTbHxThQ3tgmi1dZANKXMGZCc60hK0zC3ZCfW2wZDZD
+instagrambusinessuserid = 17841427265905389
+facebookappid = 612274772926506
+facebookappsecret = c9889c8f837786d757c927229d7a99b1
+lasttokenrefresh = 1970-01-04
+lastusedcommentid = 
+
+[CLOUDINARY]
+cloud_name = dhgcihmn3
+api_key = 564868343845653
+api_secret = q3gUnM86XhK6NMXuIesainGsG2E
+

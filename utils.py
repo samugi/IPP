@@ -9,7 +9,7 @@ import keyboard
 import datetime
 from time import sleep
 from Comment import Comment
-#from PIL import ImageGrab
+from PIL import ImageGrab
 
 def convertCommandInEnum(command):
 	if "up" in command:
@@ -60,10 +60,10 @@ def convertCommandInEnum(command):
 		return 7
 
 def stampWindowPath(path,name):
-	pyautogui.hotkey('alt', 'print screen')
+	pyautogui.hotkey('alt', 'printscreen')
 	sleep(.500)
-	#img = ImageGrab.grabclipboard()
-	#img.save(path+name, 'JPEG')
+	img = ImageGrab.grabclipboard()
+	img.save(path+name, 'JPEG')
 	
 def sendCommand(command):
 	command = convertCommandInEnum(command)
