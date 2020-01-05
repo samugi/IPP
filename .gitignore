@@ -130,7 +130,7 @@ dmypy.json
 
 
 
-config.txt
+config*
 readmepls.txt
 my_picture.jpg
 imageuploader.py
