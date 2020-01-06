@@ -11,7 +11,20 @@ from time import sleep
 from Comment import Comment
 from PIL import ImageGrab
 
+
+def initController(A,B,U,D,L,R,S,SE):
+	global a, b, up, down, left, right, start, select
+	a = A
+	b = B
+	up = U
+	down = D
+	left = L
+	right = R
+	start = S
+	select = SE
+
 def convertCommandInEnum(command):
+	command = command.lower()
 	if "up" in command:
 		return 3
 	elif "su" in command:
@@ -58,8 +71,11 @@ def convertCommandInEnum(command):
 		return 7
 	elif "p" in command:
 		return 7
+	elif "select" in command:
+		return 8
 
-def stampWindowPath(path,name):
+#FIXME this will only print the game that is focused, we should fix it to screenshot the right one i.e. red, blue, yellow...
+def stampWindowPath(path, name):
 	pyautogui.hotkey('alt', 'printscreen')
 	sleep(.500)
 	img = ImageGrab.grabclipboard()
@@ -69,46 +85,51 @@ def sendCommand(command):
 	command = convertCommandInEnum(command)
 	if command == 1:	
 		#press A
-		pyautogui.keyDown('a')
+		pyautogui.keyDown(a)
 		time.sleep(.250)
-		pyautogui.keyUp('a')
-		print("Button pressed: A")
+		pyautogui.keyUp(a)
+		print("Button pressed: " + a)
 	elif command == 2:
 		#press Z
-		pyautogui.keyDown('z')
+		pyautogui.keyDown(b)
 		time.sleep(.250)
-		pyautogui.keyUp('z')
-		print("Button pressed: B")
+		pyautogui.keyUp(b)
+		print("Button pressed: " + b)
 	elif command == 3:
 		#press I (UP)
-		pyautogui.keyDown('i')
+		pyautogui.keyDown(up)
 		time.sleep(.250)
-		pyautogui.keyUp('i')
-		print("Button pressed: Arrow UP")
+		pyautogui.keyUp(up)
+		print("Button pressed: " + up)
 	elif command == 4:
 		#press K (DOWN)
-		pyautogui.keyDown('k')
+		pyautogui.keyDown(down)
 		time.sleep(.250)
-		pyautogui.keyUp('k')
-		print("Button pressed: Arrow DOWN")
+		pyautogui.keyUp(down)
+		print("Button pressed: " + down)
 	elif command == 5:
 		#press J (LEFT)
-		pyautogui.keyDown('j')
+		pyautogui.keyDown(left)
 		time.sleep(.250)
-		pyautogui.keyUp('j')
-		print("Button pressed: Arrow LEFT")
+		pyautogui.keyUp(left)
+		print("Button pressed: " + left)
 	elif command == 6:
 		#press L (RIGHT)
-		pyautogui.keyDown('l')
+		pyautogui.keyDown(right)
 		time.sleep(.250)
-		pyautogui.keyUp('l')
-		print("Button pressed: Arrow RIGHT")
+		pyautogui.keyUp(right)
+		print("Button pressed: " + right)
 	elif command == 7:
 		#press P (start)
-		pyautogui.keyDown('p')
+		pyautogui.keyDown(start)
 		time.sleep(.250)
-		pyautogui.keyUp('p')
-		print("Button pressed: START")
+		pyautogui.keyUp(start)
+		print("Button pressed: " + start)
+	elif command == 8:
+		pyautogui.keyDown( select)
+		time.sleep(.250)
+		pyautogui.keyUp( select)
+		print("Button pressed: " + select)
 
 def stampWindow():
 	keyboard.press_and_release("alt+print screen")		

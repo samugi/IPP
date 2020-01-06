@@ -15,9 +15,11 @@ if len(sys.argv) == 1:
     print("Usage: $python ipp.py <config_file>")
     exit()
 
+configurationFile = sys.argv[1]
+
 config = configparser.ConfigParser()
 config.sections()
-config.read(sys.argv[1])
+config.read(configurationFile)
 
 ACCESS_TOKEN = config['DEFAULT']['accessToken']
 INSTAGRAM_BUSINESS_USER_ID = config['DEFAULT']['instagramBusinessUserId']
@@ -26,6 +28,20 @@ FACEBOOK_APP_SECRET= config['DEFAULT']['facebookAppSecret']
 CLOUDINARY_CLOUD_NAME = config['CLOUDINARY']['cloud_name']
 CLOUDINARY_API_KEY = config['CLOUDINARY']['api_key']
 CLOUDINARY_API_SECRET = config['CLOUDINARY']['api_secret']
+
+
+
+#controller
+A = config['CONTROLLER']['A']
+B = config['CONTROLLER']['B']
+UP = config['CONTROLLER']['UP']
+DOWN = config['CONTROLLER']['DOWN']
+LEFT = config['CONTROLLER']['LEFT']
+RIGHT = config['CONTROLLER']['RIGHT']
+START = config['CONTROLLER']['START']
+SELECT = config['CONTROLLER']['SELECT']
+
+utils.initController(A,B,UP,DOWN,LEFT,RIGHT,START,SELECT)
 
 def findCommentPosition (jsonArr, commentId):
     for i in range(len(jsonArr)):
@@ -40,8 +56,6 @@ cloudinary.config(
   api_secret = CLOUDINARY_API_SECRET 
 )
 
-
-
 #Getting a refresh token if not yet refreshed today
 lastRefresh = datetime.datetime.strptime(config['DEFAULT']['lastTokenRefresh'],"%Y-%m-%d")  if config['DEFAULT']['lastTokenRefresh'] != "" else datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
 
@@ -53,18 +67,17 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
     #Update last token and refresh date in config file
     config['DEFAULT']['lastTokenRefresh'] = datetime.datetime.now().strftime("%Y-%m-%d")
     config['DEFAULT']['accessToken'] = ACCESS_TOKEN
-    with open('config.txt', 'w') as configfile:
+    with open(configurationFile, 'w') as configfile:
         config.write(configfile)
 
-lastPostCheck = datetime.datetime.strptime("1970-01-01", '%Y-%m-%d')
-
+lastPostCheck = 0
 while True:
     #If never checked in the last hour...
-    if (datetime.datetime.now() - lastPostCheck).seconds//3600 > 0 :
+    if time.time() - lastPostCheck > 3600 :
         print("Taking a screenshot")
         utils.stampWindowPath("./screenshots/", str(round(time.time()))+".jpg")
         print("Fetcing last post foar IG business user. Wait 18 seconds...")
-        lastPostCheck = datetime.datetime.now()
+        lastPostCheck = time.time()
         #Fetching last post for INSTAGRAM_BUSINESS_USER_ID
         media_response =  utils.execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN])
         #Fetching last post from IG                                
@@ -88,7 +101,7 @@ while True:
 
     #Updating the last used comment in the configs
     config['DEFAULT']['lastUsedCommentId'] = commentsJArr[0]["id"]
-    with open('config.txt', 'w') as configfile:
+    with open(configurationFile, 'w') as configfile:
             config.write(configfile)
 
     autoScript.controller(commentsList)
