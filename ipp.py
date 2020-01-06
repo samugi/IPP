@@ -28,7 +28,9 @@ FACEBOOK_APP_SECRET= config['DEFAULT']['facebookAppSecret']
 CLOUDINARY_CLOUD_NAME = config['CLOUDINARY']['cloud_name']
 CLOUDINARY_API_KEY = config['CLOUDINARY']['api_key']
 CLOUDINARY_API_SECRET = config['CLOUDINARY']['api_secret']
-
+MAX_TIME_BETWEEN_UPDATES = 18
+MIN_TIME_BETWEEN_UPDATES = 5
+TIME_BETWEEN_CHECKS = 3600
 
 
 #controller
@@ -70,19 +72,22 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
     with open(configurationFile, 'w') as configfile:
         config.write(configfile)
 
-lastPostCheck = 0
+lastCheck = 0
 while True:
     #If never checked in the last hour...
-    if time.time() - lastPostCheck > 3600 :
+    #FIXME this could mean that comments on a new post could be ignored for up to TIME_BETWEEN_CHECKS seconds!!!
+    if time.time() - lastCheck > TIME_BETWEEN_CHECKS :
         print("Taking a screenshot")
         utils.stampWindowPath("./screenshots/", str(round(time.time()))+".jpg")
+        numOfImpressions = utils.getNumOfImpressions(INSTAGRAM_BUSINESS_USER_ID, ACCESS_TOKEN) #this makes one API call
+        print("Today's impressions so far: " + str(numOfImpressions))
         print("Fetcing last post foar IG business user. Wait 18 seconds...")
-        lastPostCheck = time.time()
+        lastCheck = time.time()
         #Fetching last post for INSTAGRAM_BUSINESS_USER_ID
         media_response =  utils.execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + INSTAGRAM_BUSINESS_USER_ID + "/media?access_token=" + ACCESS_TOKEN])
         #Fetching last post from IG                                
         lastPost = json.loads(media_response)["data"][0]["id"]
-        time.sleep(18)
+        time.sleep(MAX_TIME_BETWEEN_UPDATES)
 
     #Fetching all comments from last post
     print("Fetcing all comments from last post...")
@@ -91,22 +96,25 @@ while True:
     #Getting the position in the array "comments" of the last used comment 
     lastUsedCommentPosition = findCommentPosition(commentsJArr, config['DEFAULT']['lastUsedCommentId']) if config['DEFAULT']['lastUsedCommentId'] != "" else -1
 
-    #Fetching the next comment from the array
-    nextCommentIndex = lastUsedCommentPosition - 1 if lastUsedCommentPosition > 0 else lastUsedCommentPosition
-    nextComment = commentsJArr[nextCommentIndex]
-    nextCommentText = nextComment["text"]
+    if lastUsedCommentPosition != -1:
+        #Fetching the next comment from the array FIXME out of range if 0
+        nextCommentIndex = lastUsedCommentPosition - 1 if lastUsedCommentPosition > 0 else lastUsedCommentPosition
+        nextComment = commentsJArr[nextCommentIndex]
+        nextCommentText = nextComment["text"]
 
-    #Creating list of our Comment Objects
-    commentsList = utils.fillCommentsList(nextCommentIndex, commentsJArr)
+        #Creating list of our Comment Objects
+        commentsList = utils.fillCommentsList(nextCommentIndex, commentsJArr)
 
-    #Updating the last used comment in the configs
-    config['DEFAULT']['lastUsedCommentId'] = commentsJArr[0]["id"]
-    with open(configurationFile, 'w') as configfile:
+        #Updating the last used comment in the configs
+        config['DEFAULT']['lastUsedCommentId'] = commentsJArr[0]["id"]
+        with open(configurationFile, 'w') as configfile:
             config.write(configfile)
 
-    autoScript.controller(commentsList)
-    print("Now sleeping for 20 sec")
-    time.sleep(20)
+        autoScript.controller(commentsList)
+    impressionsFactor = max(1, numOfImpressions)
+    sleepTime = max(MIN_TIME_BETWEEN_UPDATES, MAX_TIME_BETWEEN_UPDATES // impressionsFactor)
+    print("Now sleeping for " + str(sleepTime) + " sec")
+    time.sleep(sleepTime)
 
 
 ##start testing post media

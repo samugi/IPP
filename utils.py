@@ -10,7 +10,11 @@ import datetime
 from time import sleep
 from Comment import Comment
 from PIL import ImageGrab
+import json
 
+def getNumOfImpressions(businessUserId, accessToken):
+	impressionsArr = json.loads(execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + businessUserId + "/insights?metric=impressions&period=day&access_token=" + accessToken]))["data"][0]["values"]
+	return impressionsArr[len(impressionsArr)-1]["value"]
 
 def initController(A,B,U,D,L,R,S,SE):
 	global a, b, up, down, left, right, start, select
@@ -74,7 +78,7 @@ def convertCommandInEnum(command):
 	elif "select" in command:
 		return 8
 
-#FIXME this will only print the game that is focused, we should fix it to screenshot the right one i.e. red, blue, yellow...
+#FIXME change this to press the vba printscreen button
 def stampWindowPath(path, name):
 	pyautogui.hotkey('alt', 'printscreen')
 	sleep(.500)
