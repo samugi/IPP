@@ -40,9 +40,9 @@
 		var showed = false;
 		commands = commands.reverse();
 		for(var i = 0; i < commands.length; i++){
-			console.log("localStorage: "+localStorage.getItem("IPPID"));
+			console.log("localStorage: "+localStorage.getItem("IPPIDRED"));
 			console.log("command.id: "+commands[i].id);
-			if(!showed && localStorage.getItem("IPPID")==commands[i].id){
+			if(!showed && localStorage.getItem("IPPIDRED")==commands[i].id){
 				showed = true;
 			}
 			if(showed){
@@ -57,7 +57,7 @@
 			if(comments.length > 0){
 				$(comments[0]).removeClass("hide");
 				console.log("id dal dom:" + $(comments[0]).find(".id")[0].innerText);
-				localStorage.setItem("IPPID",$(comments[0]).find(".id")[0].innerText);
+				localStorage.setItem("IPPIDRED",$(comments[0]).find(".id")[0].innerText);
 			}
 		},500);
 		

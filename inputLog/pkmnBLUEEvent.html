@@ -40,13 +40,13 @@
 		var showed = false;
 		commands = commands.reverse();
 		for(var i = 0; i < commands.length; i++){
-			console.log("localStorage: "+localStorage.getItem("IPPID"));
+			console.log("localStorage: "+localStorage.getItem("IPPIDBLUE"));
 			console.log("command.id: "+commands[i].id);
-			if(!showed && localStorage.getItem("IPPID")==commands[i].id){
+			if(!showed && localStorage.getItem("IPPIDBLUE")==commands[i].id){
 				showed = true;
 			}
 			if(showed){
-				$("#event-list").append("<li class='event-element'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
+				$("#event-list").append("<li class='new-event-element'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
 			}else{
 				$("#event-list").append("<li class='event-element hide'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
 			}
@@ -57,7 +57,7 @@
 			if(comments.length > 0){
 				$(comments[0]).removeClass("hide");
 				console.log("id dal dom:" + $(comments[0]).find(".id")[0].innerText);
-				localStorage.setItem("IPPID",$(comments[0]).find(".id")[0].innerText);
+				localStorage.setItem("IPPIDBLUE",$(comments[0]).find(".id")[0].innerText);
 			}
 		},500);
 		
