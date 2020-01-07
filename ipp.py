@@ -42,6 +42,7 @@ START = config['CONTROLLER']['START']
 SELECT = config['CONTROLLER']['SELECT']
 
 utils.initController(A,B,UP,DOWN,LEFT,RIGHT,START,SELECT)
+utils.initEventFile(configurationFile.split(".")[0]+".js")
 
 def findCommentPosition (jsonArr, commentId):
     for i in range(len(jsonArr)):
