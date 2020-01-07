@@ -1,5 +1,7 @@
 import utils
 import time
+from eventTracker import Input
+import eventTracker
 
 def controller (commentsArray):
 	#hwndMain = utils.main()#win32gui.FindWindow("Notepad", "Untitled - Notepad")
@@ -11,6 +13,7 @@ def controller (commentsArray):
 
 	for comment in commentsArray:
 		words = comment.text.split(" ")
+		inp = Input(comment.username, utils.convertCommandInLanguage(comment.text), comment.id)
 		print(words[0])
 		if len(words) > 2:
 			print("More than two words")
@@ -19,12 +22,14 @@ def controller (commentsArray):
 			print("Two words")
 			if words[0].isnumeric():
 				if int(words[0]) <= 10:
-					utils.sendCommands(words[1],words[0])
+					eventTracker.sendEvent("C:\\Users\\ciccio\\Programs\\IPP\\inputLog", utils.getFile(), inp) 
+					utils.sendCommands(comment,words[0])
 				continue
 			continue
 		elif len(words) == 1:
 			print("One word")
-			utils.sendCommand(words[0])
+			eventTracker.sendEvent("C:\\Users\\ciccio\\Programs\\IPP\\inputLog", utils.getFile(), inp)
+			utils.sendCommand(comment)
 		time.sleep(.300)
 	#print(temp) prints the returned value of temp, into the console
 	#sleep(1) this waits 1 second before looping through again

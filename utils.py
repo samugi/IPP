@@ -1,4 +1,4 @@
-#import win32gui
+﻿#import win32gui
 #import win32con
 #import win32api
 import random
@@ -16,6 +16,10 @@ def getNumOfImpressions(businessUserId, accessToken):
 	impressionsArr = json.loads(execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + businessUserId + "/insights?metric=impressions&period=day&access_token=" + accessToken]))["data"][0]["values"]
 	return impressionsArr[len(impressionsArr)-1]["value"]
 
+def initEventFile(FILE):
+	global file
+	file = FILE
+
 def initController(A,B,U,D,L,R,S,SE):
 	global a, b, up, down, left, right, start, select
 	a = A
@@ -26,6 +30,61 @@ def initController(A,B,U,D,L,R,S,SE):
 	right = R
 	start = S
 	select = SE
+
+def getFile():
+	return file
+
+
+def convertCommandInLanguage(command):
+	command = command.lower()
+	if "up" in command:
+		return "UP"
+	elif "su" in command:
+		return "UP"
+	elif "avanti" in command:
+		return "UP"
+	elif "down" in command:
+		return "DOWN"
+	elif "giù" in command:
+		return "DOWN"
+	elif "giu" in command:
+		return "DOWN"
+	elif "a" in command:
+		return "A"
+	elif "ok" in command:
+		return "A"
+	elif "b" in command:
+		return "B"
+	elif "no" in command:
+		return "B"
+	elif "left" in command:
+		return "LEFT"
+	elif "sinistra" in command:
+		return "LEFT"
+	elif "sx" in command:
+		return "LEFT"
+	elif "lf" in command:
+		return "LEFT"
+	elif "right" in command:
+		return "RIGHT"
+	elif "destra" in command:
+		return "RIGHT" 
+	elif "dx" in command:
+		return "RIGHT"
+	elif "rt" in command:
+		return "RIGHT"
+	elif "start" in command:
+		return "START"
+	elif "menu" in command:
+		return "START"
+	elif "pause" in command:
+		return "START"
+	elif "pausa" in command:
+		return "START"
+	elif "p" in command:
+		return "START"
+	elif "select" in command:
+		return "SELECT"
 
 def convertCommandInEnum(command):
 	command = command.lower()
@@ -85,8 +144,8 @@ def stampWindowPath(path, name):
 	img = ImageGrab.grabclipboard()
 	img.save(path+name, 'JPEG')
 	
-def sendCommand(command):
-	command = convertCommandInEnum(command)
+def sendCommand(comment):
+	command = convertCommandInEnum(comment.text)
 	if command == 1:	
 		#press A
 		pyautogui.keyDown(a)
@@ -138,9 +197,9 @@ def sendCommand(command):
 def stampWindow():
 	keyboard.press_and_release("alt+print screen")		
 
-def sendCommands(command, n):
+def sendCommands(comment, n):
 	for x in range(0, int(n)):
-		sendCommand(command)
+		sendCommand(comment)
 
 def execWithOutput(command):
 	return subprocess.Popen(command, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()[0].decode("utf-8") 
