@@ -140,3 +140,4 @@ Server/php/*
 
 #but not these
 !Server/php/IPP/*
+!Server/php/IPP/*/
