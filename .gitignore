@@ -138,6 +138,7 @@ imageuploader.py
 #IGNORE SERVER except some files
 !Server/php/IPP/js
 Server/php/*
+Server/php/IPP/js/*
 
 
 !Server/php/IPP/*
