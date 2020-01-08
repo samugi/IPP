@@ -16,7 +16,7 @@
 		$.getJSON( "http://localhost:8000/IPP/configYELLOW.js", function( data ) {
   		   var items = [];
 			for(var i = 0; i < data.length; i++){
-			   $("#event-list").append("<li class='event-element'><div class='background'></div><span class='from'>"+data[i].username+"</span><span class='tag'>"+data[i].command+"</span><span class='id'>"+data[i].id+"</span></li>");
+			   $("#event-list").prepend("<li class='event-element'><div class='background'></div><span class='from'>"+data[i].username+"</span><span class='tag'>"+data[i].command+"</span><span class='id'>"+data[i].id+"</span></li>");
   			   console.log(data[i].username)
 			}
 		});

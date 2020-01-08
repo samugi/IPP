@@ -134,3 +134,9 @@ config*
 readmepls.txt
 imageuploader.py
 *.jpg
+
+#IGNORE SERVER
+Server/php/*
+
+#but not these
+!Server/php/IPP/*
