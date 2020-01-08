@@ -142,5 +142,5 @@ Server/php/*/
 #but not these
 !Server/php/IPP/*
 !Server/php/IPP/css/*
-!Server/php/IPP/js/*
+!Server/php/IPP/js/keep.txt
 !Server/php/keep.txt
