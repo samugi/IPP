@@ -135,11 +135,12 @@ readmepls.txt
 imageuploader.py
 *.jpg
 
-#IGNORE SERVER
+#IGNORE SERVER except some files
+!Server/php/IPP/js
 Server/php/*
 Server/php/IPP/js/*
 
-#but not these
+
 !Server/php/IPP/*
 !Server/php/IPP/css/*
 !Server/php/IPP/js/keep.txt
