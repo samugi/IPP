@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<script src="js/jquery-3.4.1.min.js"></script>
-		<script src="configBLUE.js"></script>
+		<script src="configYELLOW.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/event-list.css">
 	</head>
 	<body>
@@ -39,16 +39,16 @@
 		
 		var showed = false;
 		commands = commands.reverse();
-		for(var i = 0; i < commands.length; i++){
-			console.log("localStorage: "+localStorage.getItem("IPPIDBLUE"));
+		for(var i = 0; i < commands.length || i < 3; i++){
+			console.log("localStorage: "+localStorage.getItem("IPPIDYEEE"));
 			console.log("command.id: "+commands[i].id);
-			if(!showed && localStorage.getItem("IPPIDBLUE")==commands[i].id){
+			if(!showed && localStorage.getItem("IPPIDYEEE")==commands[i].id){
 				showed = true;
 			}
 			if(showed){
 				$("#event-list").append("<li class='new-event-element'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
 			}else{
-				$("#event-list").append("<li class='event-element hide'><div class='background'></div><span class='from'>"+commands[i].username+" </span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
+				$("#event-list").append("<li class='event-element hide'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
 			}
 		}
 		
@@ -57,11 +57,11 @@
 			if(comments.length > 0){
 				$(comments[0]).removeClass("hide");
 				console.log("id dal dom:" + $(comments[0]).find(".id")[0].innerText);
-				localStorage.setItem("IPPIDBLUE",$(comments[0]).find(".id")[0].innerText);
+				localStorage.setItem("IPPIDYEEE",$(comments[0]).find(".id")[0].innerText);
 			}
 		},500);
 		
-		setTimeout(function(){location.reload()}, 5000);
+		setTimeout(function(){location.reload()}, 1000);
 	
 	</script>
 </html>

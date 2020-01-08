@@ -22,13 +22,13 @@ def controller (commentsArray):
 			print("Two words")
 			if words[0].isnumeric():
 				if int(words[0]) <= 10:
-					eventTracker.sendEvent("C:\\Users\\ciccio\\Programs\\IPP\\inputLog", utils.getFile(), inp) 
+					eventTracker.sendEvent("..\\Server\\php\\IPP", utils.getFile(), inp) 
 					utils.sendCommands(comment,words[0])
 				continue
 			continue
 		elif len(words) == 1:
 			print("One word")
-			eventTracker.sendEvent("C:\\Users\\ciccio\\Programs\\IPP\\inputLog", utils.getFile(), inp)
+			eventTracker.sendEvent("..\\Server\\php\\IPP", utils.getFile(), inp)
 			utils.sendCommand(comment)
 		time.sleep(.300)
 	#print(temp) prints the returned value of temp, into the console

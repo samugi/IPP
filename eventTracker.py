@@ -7,7 +7,7 @@ class Input:
 
 
 def sendEvent(path, fileName, inp):
-    f= open(path + "\\" + fileName,"r")
+    f= open(path + "\\" + fileName,"r+")
     lines = f.readlines()
     f.close()
     f= open(path + "\\" + fileName,"w+")
@@ -18,7 +18,5 @@ def sendEvent(path, fileName, inp):
             f.write(l)
         elif index == len(lines)-1:
             f.write(l.replace("\n", "")+",\n")
-        
-    f.write("{\"username\":\""+inp.username+"\", \"command\" : \""+inp.inputType+"\", \"id\" : \""+inp.id+"\"}\n]")
-          
+    f.write("{\"username\":\""+inp.username+"\", \"command\" : \""+inp.inputType+"\", \"id\" : \""+inp.id+"\"}\n]") 
     f.close()    

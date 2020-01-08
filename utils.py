@@ -12,6 +12,8 @@ from Comment import Comment
 from PIL import ImageGrab
 import json
 
+pyautogui.FAILSAFE = False
+
 def getNumOfImpressions(businessUserId, accessToken):
 	impressionsArr = json.loads(execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + businessUserId + "/insights?metric=impressions&period=day&access_token=" + accessToken]))["data"][0]["values"]
 	return impressionsArr[len(impressionsArr)-1]["value"]

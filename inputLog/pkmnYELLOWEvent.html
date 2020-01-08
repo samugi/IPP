@@ -1,67 +1,27 @@
 <html>
 	<head>
 		<script src="js/jquery-3.4.1.min.js"></script>
-		<script src="configYELLOW.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/event-list.css">
 	</head>
 	<body>
 		<div id="event-list" class="widget-EventList">
-			
 		</div>
 	</body>
 	<script>
 
-		function setCookie(cname, cvalue, exdays) {
-		  var d = new Date();
-		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-		  var expires = "expires="+ d.toUTCString();
-		  document.cookie = cname + "=" + cvalue + "," + expires + ",path=/";
-		}
-		
-		function getCookie(cname) {
-		  var name = cname + "=";
-		  var decodedCookie = decodeURIComponent(document.cookie);
-		  var ca = decodedCookie.split(',');
-		  for(var i = 0; i <ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) == ' ') {
-			  c = c.substring(1);
-			}
-			if (c.indexOf(name) == 0) {
-			  return c.substring(name.length, c.length);
-			}
-		  }
-		  return "";
-		}
-		
-		
-		$.fn.reverse = [].reverse;
-		
-		var showed = false;
-		commands = commands.reverse();
-		for(var i = 0; i < commands.length; i++){
-			console.log("localStorage: "+localStorage.getItem("IPPIDYEEE"));
-			console.log("command.id: "+commands[i].id);
-			if(!showed && localStorage.getItem("IPPIDYEEE")==commands[i].id){
-				showed = true;
-			}
-			if(showed){
-				$("#event-list").append("<li class='new-event-element'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
-			}else{
-				$("#event-list").append("<li class='event-element hide'><div class='background'></div><span class='from'>"+commands[i].username+"</span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
-			}
-		}
-		
+	
 		setInterval(function(){	
-			var comments = $(".hide").reverse();
-			if(comments.length > 0){
-				$(comments[0]).removeClass("hide");
-				console.log("id dal dom:" + $(comments[0]).find(".id")[0].innerText);
-				localStorage.setItem("IPPIDYEEE",$(comments[0]).find(".id")[0].innerText);
-			}
-		},500);
+	
 		
-		setTimeout(function(){location.reload()}, 5000);
+		$.getJSON( "http://localhost:8000/IPP/configYELLOW.js", function( data ) {
+  		   var items = [];
+			for(var i = 0; i < data.length; i++){
+			   $("#event-list").append("<li class='event-element'><div class='background'></div><span class='from'>"+data[i].username+"</span><span class='tag'>"+data[i].command+"</span><span class='id'>"+data[i].id+"</span></li>");
+  			   console.log(data[i].username)
+			}
+		});
+
+		},500);
 	
 	</script>
 </html>

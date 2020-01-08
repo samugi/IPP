@@ -91,7 +91,6 @@ while True:
         time.sleep(MAX_TIME_BETWEEN_UPDATES)
 
     #Fetching all comments from last post
-    print("Fetcing all comments from last post...")
     comments_response = utils.execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + lastPost + "/comments?fields=like_count,hidden,id,media,text,timestamp,username,replies,user&access_token=" + ACCESS_TOKEN])
     commentsJArr = json.loads(comments_response)["data"]
     #Getting the position in the array "comments" of the last used comment 
@@ -110,7 +109,6 @@ while True:
         config['DEFAULT']['lastUsedCommentId'] = commentsJArr[0]["id"]
         with open(configurationFile, 'w') as configfile:
             config.write(configfile)
-
         autoScript.controller(commentsList)
     impressionsFactor = max(1, numOfImpressions)
     sleepTime = max(MIN_TIME_BETWEEN_UPDATES, MAX_TIME_BETWEEN_UPDATES // impressionsFactor)
