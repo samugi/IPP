@@ -1,0 +1,108 @@
+html, .widget-EventList li > div {
+    -webkit-transform: rotateX({rotate_x}) rotateY({rotate_y});
+            transform: rotateX({rotate_x}) rotateY({rotate_y});
+}
+
+.widget-EventList, .widget-EventList * {
+    box-sizing: border-box;
+}
+
+.widget-EventList {
+    font-weight: 700;
+    font-size: 18px;
+    font-family: "Arial";
+    color: white;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 10px 30px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.widget-EventList li, .event-element{
+	
+	width: 100%;
+    height: 50px;
+	
+}
+
+.event-element {
+    width: 100%;
+    position: relative;
+	-webkit-animation-name: growA;
+	-webkit-animation-duration: 1s;
+	animation-name: growA;
+	animation-duration: 1s;
+}
+
+
+
+@-webkit-keyframes growA {
+    0% {
+        opacity: 0;
+        font-size: 0em;
+        height: 0em;
+    }
+
+    100% {
+        opacity: 1;
+        font-size: 1em;
+        height: 50px;
+    }
+}
+
+
+@keyframes growA {
+    0% {
+        opacity: 0;
+        font-size: 0em;
+        height: 0em;
+    }
+
+    100% {
+        opacity: 1;
+        font-size: 1em;
+        height: 50px
+    }
+}
+
+@-webkit-keyframes growB {
+    0% {
+        opacity: 1;
+        font-size: 1em;
+        height: 50px;
+    }
+}
+
+@keyframes growB {
+    0% {
+        opacity: 1;
+        font-size: 1em;
+        height: 50px;
+        line-height: 50px;
+    }
+}
+
+.widget-EventList .tag {
+    font-size: 0.6em;
+    line-height: 0.6em;
+    top: 0.4em;
+    right: 0.3em;
+}
+
+.widget-EventList .message {
+    padding-right: 3em;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.widget-EventList li {
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.7), 0 0 2px rgba(0, 0, 0, 0.7), 0 0 3px rgba(0, 0, 0, 0.7);
+}
+
+.id, .hide{
+	display:none;
+}

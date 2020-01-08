@@ -139,5 +139,4 @@ imageuploader.py
 Server/php/*
 
 #but not these
-!Server/php/IPP/*
-!Server/php/IPP/*/
+!Server/php/IPP/
