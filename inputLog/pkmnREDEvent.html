@@ -1,67 +1,28 @@
 <html>
 	<head>
 		<script src="js/jquery-3.4.1.min.js"></script>
-		<script src="configRED.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/event-list.css">
 	</head>
 	<body>
 		<div id="event-list" class="widget-EventList">
-			
 		</div>
 	</body>
 	<script>
-
-		function setCookie(cname, cvalue, exdays) {
-		  var d = new Date();
-		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-		  var expires = "expires="+ d.toUTCString();
-		  document.cookie = cname + "=" + cvalue + "," + expires + ",path=/";
-		}
-		
-		function getCookie(cname) {
-		  var name = cname + "=";
-		  var decodedCookie = decodeURIComponent(document.cookie);
-		  var ca = decodedCookie.split(',');
-		  for(var i = 0; i <ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) == ' ') {
-			  c = c.substring(1);
-			}
-			if (c.indexOf(name) == 0) {
-			  return c.substring(name.length, c.length);
-			}
-		  }
-		  return "";
-		}
-		
-		
-		$.fn.reverse = [].reverse;
-		
-		var showed = false;
-		commands = commands.reverse();
-		for(var i = 0; i < commands.length; i++){
-			console.log("localStorage: "+localStorage.getItem("IPPIDRED"));
-			console.log("command.id: "+commands[i].id);
-			if(!showed && localStorage.getItem("IPPIDRED")==commands[i].id){
-				showed = true;
-			}
-			if(showed){
-				$("#event-list").append("<li class='old-event-element'><div class='background'></div><span class='from'>"+commands[i].username+" </span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
-			}else{
-				$("#event-list").append("<li class='event-element hide'><div class='background'></div><span class='from'>"+commands[i].username+" </span><span class='tag'>"+commands[i].command+"</span><span class='id'>"+commands[i].id+"</span></li>");
-			}
-		}
-		
 		setInterval(function(){	
-			var comments = $(".hide").reverse();
-			if(comments.length > 0){
-				$(comments[0]).removeClass("hide");
-				console.log("id dal dom:" + $(comments[0]).find(".id")[0].innerText);
-				localStorage.setItem("IPPIDRED",$(comments[0]).find(".id")[0].innerText);
+		$.getJSON( "http://localhost:8000/IPP/configRED.js", function( data ) {
+			var show = false;
+			var i = (data.length - 5 >= 0) ? data.length - 5 : 0;
+			for( ; i < data.length; i++){
+				if($('.id:contains("'+data[i].id+'")').length == 0){
+		   			$("#event-list").prepend("<li class='event-element'><div class='background'></div><span class='from'>"+data[i].username+"</span><span class='tag'>"+data[i].command+"</span><span class='id'>"+data[i].id+"</span></li>");
+  		   			console.log($("#event-list > li").length);
+		   			if($("#event-list > li").length > 5){
+		    				$("#event-list > li").last().remove();
+                       			}	
+				}	   	       
 			}
+			
+		});
 		},500);
-		
-		setTimeout(function(){location.reload()}, 5000);
-	
 	</script>
 </html>

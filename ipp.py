@@ -16,6 +16,7 @@ if len(sys.argv) == 1:
     exit()
 
 configurationFile = sys.argv[1]
+fileName = sys.argv[2]
 
 config = configparser.ConfigParser()
 config.sections()
@@ -28,9 +29,10 @@ FACEBOOK_APP_SECRET= config['DEFAULT']['facebookAppSecret']
 CLOUDINARY_CLOUD_NAME = config['CLOUDINARY']['cloud_name']
 CLOUDINARY_API_KEY = config['CLOUDINARY']['api_key']
 CLOUDINARY_API_SECRET = config['CLOUDINARY']['api_secret']
-MAX_TIME_BETWEEN_UPDATES = 18
+MAX_TIME_BETWEEN_UPDATES = 8
 MIN_TIME_BETWEEN_UPDATES = 5
 TIME_BETWEEN_CHECKS = 3600
+TIME_BETWEEN_SAVE = 10
 
 
 #controller
@@ -44,7 +46,7 @@ START = config['CONTROLLER']['START']
 SELECT = config['CONTROLLER']['SELECT']
 
 utils.initController(A,B,UP,DOWN,LEFT,RIGHT,START,SELECT)
-utils.initEventFile(configurationFile.split(".")[0]+".js")
+utils.initEventFile(fileName+".js")
 
 def findCommentPosition (jsonArr, commentId):
     for i in range(len(jsonArr)):
@@ -74,12 +76,13 @@ if (datetime.datetime.now() - lastRefresh).days > 0 :
         config.write(configfile)
 
 lastCheck = 0
+lastSave = 0
 while True:
     #If never checked in the last hour...
     #FIXME this could mean that comments on a new post could be ignored for up to TIME_BETWEEN_CHECKS seconds!!!
     if time.time() - lastCheck > TIME_BETWEEN_CHECKS :
         print("Taking a screenshot")
-        utils.stampWindowPath("./screenshots/", str(round(time.time()))+".jpg")
+       #utils.stampWindowPath("./screenshots/", str(round(time.time()))+".jpg")
         numOfImpressions = utils.getNumOfImpressions(INSTAGRAM_BUSINESS_USER_ID, ACCESS_TOKEN) #this makes one API call
         print("Today's impressions so far: " + str(numOfImpressions))
         print("Fetcing last post foar IG business user. Wait 18 seconds...")
@@ -89,6 +92,12 @@ while True:
         #Fetching last post from IG                                
         lastPost = json.loads(media_response)["data"][0]["id"]
         time.sleep(MAX_TIME_BETWEEN_UPDATES)
+    
+    #save every 10 minutes
+    if time.time() - lastSave > TIME_BETWEEN_SAVE :
+        print("Saving game...")
+        lastSave = time.time()
+        utils.save()
 
     #Fetching all comments from last post
     comments_response = utils.execWithOutput(['curl', "https://graph.facebook.com/v5.0/" + lastPost + "/comments?fields=like_count,hidden,id,media,text,timestamp,username,replies,user&access_token=" + ACCESS_TOKEN])

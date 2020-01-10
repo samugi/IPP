@@ -129,19 +129,15 @@ dmypy.json
 .pyre/
 
 
-
 config*
 readmepls.txt
 imageuploader.py
 *.jpg
 
 #IGNORE SERVER except some files
-!Server/php/IPP/js
-Server/php/*
-Server/php/IPP/js/*
-
-
 !Server/php/IPP/*
 !Server/php/IPP/css/*
 !Server/php/IPP/js/keep.txt
 !Server/php/keep.txt
+Server/php/*
+
