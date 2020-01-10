@@ -1,0 +1,41 @@
+.card{
+	
+}
+
+.card-header{
+	border-radius: 5px;
+	line-height: 20px;
+	background-color: #4285f4 !important;
+	padding: 6px;
+	display: inline-block;
+	float:left;
+	margin:5px;
+}
+.disabled-drag > .card-header{
+	opacity:0.5;
+}
+.white-text{
+	color:white;
+}
+
+.draggable-box{
+	border: 1px solid #dee2e6 !important;
+	padding:10px;
+}
+
+.shared-fields{
+	min-height:200px;
+}
+
+.fields-container{
+	min-height:300px;
+}
+
+.sx-type-box{
+	padding:25px;
+}
+
+.row-type-title{
+	font-weight:bold;
+	margin-bottom:10px;
+}

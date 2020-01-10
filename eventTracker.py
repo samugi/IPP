@@ -5,7 +5,8 @@ class Input:
       self.inputType = inputType
       self.id = id
 
-
+#FIXME sistemare che se file non esiste lo crea da solo
+#fixare anche che nel file ci devono essere SOLO i nuovi commenti 
 def sendEvent(path, fileName, inp):
     f= open(path + "\\" + fileName,"r+")
     lines = f.readlines()
