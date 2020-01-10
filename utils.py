@@ -4,6 +4,7 @@
 import random
 import pyautogui
 import subprocess
+from subprocess import check_output
 import time
 import keyboard
 import datetime
@@ -11,6 +12,12 @@ from time import sleep
 from Comment import Comment
 from PIL import ImageGrab
 import json
+import win32gui
+import win32con
+import win32api
+import win32process
+import psutil
+import win32com.client
 
 pyautogui.FAILSAFE = False
 
@@ -216,3 +223,33 @@ def fillCommentsList(nextCommentIndex, commentsJArr):
 		c.timestamp = commentsJArr[i]["timestamp"]
 		commentsList.append(c)
 	return commentsList
+
+def save() :
+	saveByName("visualboyadvance")
+	
+def saveByName(name):
+	for proc in psutil.process_iter():
+		if  name in proc.name().lower():
+			pid = proc.pid
+			print("pid: " + str(pid))
+			shell = win32com.client.Dispatch("WScript.Shell")
+			shell.SendKeys('%')
+			win32gui.SetForegroundWindow(find_window_for_pid(pid))
+			sleep(.500)
+			pyautogui.hotkey('shift', 'F1')
+
+
+def find_window_for_pid(pid):
+    result = None
+    def callback(hwnd, _):
+        nonlocal result
+        ctid, cpid = win32process.GetWindowThreadProcessId(hwnd)
+        if cpid == pid:
+            result = hwnd
+            return False
+        return True
+    try :
+        win32gui.EnumWindows(callback, None)
+    except :
+        print("An exception occurred")
+    return result
