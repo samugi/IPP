@@ -1,41 +1,39 @@
-.card{
-	
+.container{
+	background-color:#e7e7e7;
+	height:720px;
+	font-family: PokemonSolid;
+	color: rgb(253, 211, 20);
+	text-shadow: -3px 0 rgb(49, 109, 190), 0 3px  rgb(49, 109, 190), 3px 0  rgb(49, 109, 190), 0 -3px  rgb(49, 109, 190);
 }
 
-.card-header{
-	border-radius: 5px;
-	line-height: 20px;
-	background-color: #4285f4 !important;
-	padding: 6px;
-	display: inline-block;
-	float:left;
-	margin:5px;
+.monitor{
+	height:324px;
 }
-.disabled-drag > .card-header{
-	opacity:0.5;
+.r-monitor{
+	background:red;
+	border:solid 3px black;
 }
-.white-text{
-	color:white;
+.b-monitor{
+	background:blue;
+}
+.y-monitor{
+	background:yellow;
 }
 
-.draggable-box{
-	border: 1px solid #dee2e6 !important;
-	padding:10px;
+@font-face {
+    font-family: PokemonGb; 
+    src: url(../font/PokemonGb-RAeo.ttf); /*URL to font*/
+}
+@font-face {
+    font-family: PokemonSolid; 
+    src: url('../font/Pokemon Solid.ttf'); /*URL to font*/
 }
 
-.shared-fields{
-	min-height:200px;
+.event-list-container{
+	margin-top: 10px;
 }
-
-.fields-container{
-	min-height:300px;
-}
-
-.sx-type-box{
-	padding:25px;
-}
-
-.row-type-title{
-	font-weight:bold;
-	margin-bottom:10px;
+.stream-title{
+	margin-left:15px;
+	font-size:36px;
+	margin-bottom: 15px;
 }

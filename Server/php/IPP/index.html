@@ -1,1 +1,113 @@
-<H1>ciao</h1>
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-1.6.4.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css"/>
+		<script type="text/javascript" src="css/datatables.min.js"></script>
+		<script type="text/javascript" src="mdb.js"></script>
+		<link href="css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/event-list.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+	</head>
+	<body>
+		<div class="container"  width="1280px" height="720px">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="row ig-title">
+						<div class="col-xs-4">
+							<div class="row">
+								<h4 class="stream-title">PlayPokemonRed</h4>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="row">
+								<h4 class="stream-title">PlayPokemonBlue</h4>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="row">
+								<h4 class="stream-title">PlayPokemonYellow</h4>
+							</div>
+						</div>
+					</div>
+					<div class="row em-monitor">
+						<div class="col-xs-4">
+							<div class="r-monitor monitor" background="red">
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="b-monitor monitor" background="blue">
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="y-monitor monitor" background-color="yellow">
+							</div>
+						</div>
+					</div>
+					<div class="row events-lists">
+						<div class="col-xs-4">
+							<div id="r-event-list" class="event-list-container">
+								<li class='event-element'>
+									<span class='from'>ELenaDiGioia</span><span class='tag'>UP</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>Spartiacque</span><span class='tag'>START</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>TroppoPieno</span><span class='tag'>DOWN</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>AlberoBrutto</span><span class='tag'>LEFT</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>xSterzox</span><span class='tag'>UP</span>
+								</li>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div id="b-event-list" class="event-list-container">
+								<li class='event-element'>
+									<span class='from'>SempreJuve</span><span class='tag'>UP</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>Placido91</span><span class='tag'>START</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>34YellU32</span><span class='tag'>DOWN</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>nEfAsTo2332</span><span class='tag'>LEFT</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>MorteNera666</span><span class='tag'>UP</span>
+								</li>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div id="y-event-list" class="event-list-container">		
+								<li class='event-element'>
+									<span class='from'>AldoNonMolla</span><span class='tag'>UP</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>Flavione</span><span class='tag'>START</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>Aldo2</span><span class='tag'>DOWN</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>Franco</span><span class='tag'>LEFT</span>
+								</li>
+								<li class='event-element'>
+									<span class='from'>Miocane</span><span class='tag'>UP</span>
+								</li>
+							</div>
+						</div>
+					</div> 
+				</div>
+			</div>
+		</div>
+		<script src="chat.js"></script>
+	</body>
+</html>
