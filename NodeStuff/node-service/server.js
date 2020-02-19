@@ -5,6 +5,7 @@ const app = express();
 
 var io = require('socket.io-client')
 var socket = io.connect('http://localhost:3000', {reconnect: true});
+var raidReady = false;
 
 app.get('/send-command', (req, res) => {
   
@@ -23,6 +24,20 @@ app.get('/send-command', (req, res) => {
     }
     console.log("Button: " + command + ", platform: " + platform + ", user: " + user);
     res.send('OK');
+    
+});
+
+app.get('/raid', (req, res) => {
+  
+    res.send(raidReady);
+	raidReady = false;
+    
+});
+
+app.get('/setraid', (req, res) => {
+  
+  raidReady = true;
+  res.send('OK');
     
 });
 

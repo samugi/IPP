@@ -1,11 +1,33 @@
 var progressValue = 0;
+var raidFreeze = false;
+
 
 function progressBarTick(){
 	
-	progressValue += 100/TARGET_COMMAND_RECEIVED;
+	if(!raidFreeze){
 	
-	$("#myBar").width(progressValue);
-	
+		progressValue += 100/TARGET_COMMAND_RECEIVED;
+		
+		$("#myBar").width(progressValue + '%');
+		
+		if(progressValue == 100){
+			progressValue = 0;
+			raidFreeze = true;
+			$.get( "localhost:8080/setraid", function( data ) {
+				console.log(data);
+				$("#progress-raid-text").html("Raid telegram in progress!");
+			});
+			waitRaid();
+		}
+	}
+}
+
+function waitRaid(){
+	setTimeout(function(){ 
+		raidFreeze = false; 
+		$("#myBar").width(progressValue + '%');
+		$("#progress-raid-text").html("Raid bar loading...");
+	}, 5*ONE_MINUTE);
 }
 
 $(function(){
