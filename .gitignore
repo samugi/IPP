@@ -109,22 +109,11 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-
-config*
-readmepls.txt
-imageuploader.py
-*.jpg
-
-#IGNORE SERVER except some files
-Server/php/*
-!Server/php/IPP/
-!Server/php/IPP/*
-
 *.min.css
 *.min.js
 
-!Server/php/keep.txt
-
-
+*config*
+*.jpg
+*.png
 
 
