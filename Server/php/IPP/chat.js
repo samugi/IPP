@@ -13,7 +13,7 @@ function progressBarTick(){
 		if(progressValue == 100){
 			progressValue = 0;
 			raidFreeze = true;
-			$.get( "localhost:8080/setraid", function( data ) {
+			$.get( "http://localhost:8080/setraid", function( data ) {
 				console.log(data);
 				$("#progress-raid-text").html("Raid telegram in progress!");
 			});
