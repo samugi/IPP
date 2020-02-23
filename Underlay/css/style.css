@@ -38,8 +38,11 @@
 	margin-bottom: 15px;
 }
 
-#myProgress {
+#progress-raid-text{
   margin-top:74px;
+}
+
+#myProgress {
   width: 100%;
   background-color: grey;
 }
