@@ -1,5 +1,7 @@
 var progressValue = 0;
 var raidFreeze = false;
+var malus = new Array();
+malus["ic"] = "Inverted commands";
 
 
 function progressBarTick(){
@@ -33,14 +35,14 @@ function waitRaid(){
 function setBonusMalus(data){
 	
 	if(data.raidWinner == 'youtube'){
-		$('#b-malus .malus').html("Current malus: "+data.bm);
-		$('#y-malus .malus').html("Current malus: "+data.bm);
+		$('#b-malus .malus').html("Current malus: "+malus[data.bm]);
+		$('#y-malus .malus').html("Current malus: "+malus[data.bm]);
 	}else if(data.raidWinner == 'mixer'){
-		$('#r-malus .malus').html("Current malus: "+data.bm);
-		$('#y-malus .malus').html("Current malus: "+data.bm);
+		$('#r-malus .malus').html("Current malus: "+malus[data.bm]);
+		$('#y-malus .malus').html("Current malus: "+malus[data.bm]);
 	}else if(data.raidWinner == 'twitch'){
-		$('#r-malus .malus').html("Current malus: "+data.bm);
-		$('#b-malus .malus').html("Current malus: "+data.bm);
+		$('#r-malus .malus').html("Current malus: "+malus[data.bm]);
+		$('#b-malus .malus').html("Current malus: "+malus[data.bm]);
 	}
 	
 	setTimeout(function(){
