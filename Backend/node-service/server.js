@@ -38,6 +38,7 @@ app.get('/send-bm', (req, res) => {
     duration = req.query.d;
     bmStartedTs = req.query.ts;
 	socket.emit('send_bm',{raidWinner: raidWinner, duration:duration, bm:bm})
+    res.send('OK');
 });
 
 app.get('/raid', (req, res) => {
