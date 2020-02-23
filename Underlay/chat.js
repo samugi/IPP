@@ -30,6 +30,27 @@ function waitRaid(){
 	}, 5*ONE_MINUTE);
 }
 
+function setBonusMalus(data){
+	
+	if(data.raidWinner == 'youtube'){
+		$('#b_malus .malus').html("Current malus: "+data.bm);
+		$('#y_malus .malus').html("Current malus: "+data.bm);
+	}else if(data.raidWinner == 'mixer'){
+		$('#r_malus .malus').html("Current malus: "+data.bm);
+		$('#y_malus .malus').html("Current malus: "+data.bm);
+	}else if(data.raidWinner == 'twitch'){
+		$('#r_malus .malus').html("Current malus: "+data.bm);
+		$('#b_malus .malus').html("Current malus: "+data.bm);
+	}
+	
+	setTimeout(function(){
+		$('#b_malus .malus').html("");
+		$('#r_malus .malus').html("");
+		$('#y_malus .malus').html("");
+	}, data.duration);
+	
+}
+
 $(function(){
 	var socket = io.connect('http://localhost:3000')
 	
@@ -61,4 +82,10 @@ $(function(){
 		if($("#y-event-list .event-element").length > 5)
 			$("#y-event-list .event-element")[5].remove();
 	})
+	
+	socket.on("send_bm", (data) => {
+		setBonusMalus(data);
+		console.log(data);
+	})
+	
 });
