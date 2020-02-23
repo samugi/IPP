@@ -44,9 +44,9 @@ function setBonusMalus(data){
 	}
 	
 	setTimeout(function(){
-		$('#b-malus .malus').html("");
-		$('#r-malus .malus').html("");
-		$('#y-malus .malus').html("");
+		$('#b-malus .malus').html(" ");
+		$('#r-malus .malus').html(" ");
+		$('#y-malus .malus').html(" ");
 	}, data.duration);
 	
 }

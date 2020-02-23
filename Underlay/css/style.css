@@ -22,12 +22,18 @@
 
 .bonus{
 	font-family: Helvetica;
+	font-size: 23px;
 	color: green;
+	text-shadow: -1px 0 rgb(49, 109, 190), 0 1px rgb(49, 109, 190), 1px 0 rgb(49, 109, 190), 0 -1px rgb(49, 109, 190);
+	text-shadow: 0;
 }
 
 .malus{
 	font-family: Helvetica;
 	color: red;
+	font-size: 23px;
+	text-shadow: -1px 0 rgb(49, 109, 190), 0 1px rgb(49, 109, 190), 1px 0 rgb(49, 109, 190), 0 -1px rgb(49, 109, 190);
+	text-shadow: 0;
 }
 
 @font-face {
@@ -49,8 +55,11 @@
 }
 
 #progress-raid-text{
-  font-family:Helvetica;
-  margin-top:74px;
+    font-family: Helvetica;
+    font-size: 23px;
+    margin-top: 50px;
+    text-shadow: -1px 0 rgb(49, 109, 190), 0 1px rgb(49, 109, 190), 1px 0 rgb(49, 109, 190), 0 -1px rgb(49, 109, 190);
+    margin-bottom: 10px;
 }
 
 #myProgress {
