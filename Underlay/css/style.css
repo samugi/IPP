@@ -21,10 +21,12 @@
 }
 
 .bonus{
+	font-family: Helvetica;
 	color: green;
 }
 
 .malus{
+	font-family: Helvetica;
 	color: red;
 }
 
@@ -47,6 +49,7 @@
 }
 
 #progress-raid-text{
+  font-family:Helvetica;
   margin-top:74px;
 }
 
