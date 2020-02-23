@@ -7,7 +7,7 @@ var io = require('socket.io-client')
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 var raidReady = false;
 
-var bm = ;
+var bm = "none";
 var raidWinner;
 var duration;
 var bmStartedTs;
