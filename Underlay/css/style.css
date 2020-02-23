@@ -25,7 +25,7 @@
 	font-size: 23px;
 	color: green;
 	text-shadow: -1px 0 rgb(49, 109, 190), 0 1px rgb(49, 109, 190), 1px 0 rgb(49, 109, 190), 0 -1px rgb(49, 109, 190);
-	text-shadow: 0;
+	line-height: 50px;
 }
 
 .malus{
@@ -33,7 +33,7 @@
 	color: red;
 	font-size: 23px;
 	text-shadow: -1px 0 rgb(49, 109, 190), 0 1px rgb(49, 109, 190), 1px 0 rgb(49, 109, 190), 0 -1px rgb(49, 109, 190);
-	text-shadow: 0;
+	line-height: 50px;
 }
 
 @font-face {
@@ -43,6 +43,10 @@
 @font-face {
     font-family: PokemonSolid; 
     src: url('../font/Pokemon Solid.ttf'); /*URL to font*/
+}
+
+#y-malus,#r-malus,#b-malus,#y-bonus,#r-bonus,#b-bonus{
+	height:30px;
 }
 
 .event-list-container{
@@ -57,7 +61,7 @@
 #progress-raid-text{
     font-family: Helvetica;
     font-size: 23px;
-    margin-top: 50px;
+    margin-top: 3px;
     text-shadow: -1px 0 rgb(49, 109, 190), 0 1px rgb(49, 109, 190), 1px 0 rgb(49, 109, 190), 0 -1px rgb(49, 109, 190);
     margin-bottom: 10px;
 }
