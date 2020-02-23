@@ -138,10 +138,8 @@
 		<script src="chat.js"></script>
 		<script type="text/javascript">
 		  setInterval(function() {
-			var malus = $('.malus');
-			malus.style.opacity = (malus.style.opacity == 0 ? 1 : 0);
-			var bonus = $('.bonus');
-			bonus.style.opacity = (bonus.style.opacity == 0 ? 1 : 0);
+			$('.malus').css("opacity", $('.malus').css("opacity") == 0 ? 1 : 0);
+			$('.bonus').css("opacity", $('.bonus').css("opacity") == 0 ? 1 : 0);
 		  }, 1000); 
 		</script>
 	</body>

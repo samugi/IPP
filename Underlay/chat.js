@@ -33,20 +33,20 @@ function waitRaid(){
 function setBonusMalus(data){
 	
 	if(data.raidWinner == 'youtube'){
-		$('#b_malus .malus').html("Current malus: "+data.bm);
-		$('#y_malus .malus').html("Current malus: "+data.bm);
+		$('#b-malus .malus').html("Current malus: "+data.bm);
+		$('#y-malus .malus').html("Current malus: "+data.bm);
 	}else if(data.raidWinner == 'mixer'){
-		$('#r_malus .malus').html("Current malus: "+data.bm);
-		$('#y_malus .malus').html("Current malus: "+data.bm);
+		$('#r-malus .malus').html("Current malus: "+data.bm);
+		$('#y-malus .malus').html("Current malus: "+data.bm);
 	}else if(data.raidWinner == 'twitch'){
-		$('#r_malus .malus').html("Current malus: "+data.bm);
-		$('#b_malus .malus').html("Current malus: "+data.bm);
+		$('#r-malus .malus').html("Current malus: "+data.bm);
+		$('#b-malus .malus').html("Current malus: "+data.bm);
 	}
 	
 	setTimeout(function(){
-		$('#b_malus .malus').html("");
-		$('#r_malus .malus').html("");
-		$('#y_malus .malus').html("");
+		$('#b-malus .malus').html("");
+		$('#r-malus .malus').html("");
+		$('#y-malus .malus').html("");
 	}, data.duration);
 	
 }
