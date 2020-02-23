@@ -7,6 +7,11 @@ var io = require('socket.io-client')
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 var raidReady = false;
 
+var bm = ;
+var raidWinner;
+var duration;
+var bmStartedTs;
+
 app.get('/send-command', (req, res) => {
   
     console.log(`Request coming from IP: ` + req.connection.remoteAddress);
@@ -23,8 +28,15 @@ app.get('/send-command', (req, res) => {
       socket.emit('new_command_red',{command: command, username: user})
     }
     console.log("Button: " + command + ", platform: " + platform + ", user: " + user);
-    res.send('OK');
-    
+    res.json({bm:bm, raidWinner:raidWinner, bmStartedTs:bmStartedTs, duration:duration});
+});
+
+app.get('/send-bm', (req, res) => {
+    console.log(`Request coming from IP: ` + req.connection.remoteAddress);
+    bm = req.query.bm;
+    raidWinner = req.query.w;
+    duration = req.query.d;
+    bmStartedTs = req.query.ts;
 });
 
 app.get('/raid', (req, res) => {
