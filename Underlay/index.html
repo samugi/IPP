@@ -65,6 +65,12 @@
 									<span class='from'>xSterzox</span><span class='tag'>UP</span>
 								</li>
 							</div>
+							<div id="r-malus">
+								<span class="malus"></span>
+							</div>
+							<div id="r-bonus">
+								<span class="bonus"></span>
+							</div>
 						</div>
 						<div class="col-xs-4">
 							<div id="b-event-list" class="event-list-container">
@@ -83,6 +89,12 @@
 								<li class='event-element'>
 									<span class='from'>MorteNera666</span><span class='tag'>UP</span>
 								</li>
+							</div>
+							<div id="b-malus">
+								<span class="malus"></span>
+							</div>
+							<div id="b-bonus">
+								<span class="bonus"></span>
 							</div>
 						</div>
 						<div class="col-xs-4">
@@ -103,6 +115,12 @@
 									<span class='from'>Miocane</span><span class='tag'>UP</span>
 								</li>
 							</div>
+							<div id="y-malus">
+								<span class="malus"></span>
+							</div>
+							<div id="y-bonus">
+								<span class="bonus"></span>
+							</div>
 						</div>
 					</div> 
 				</div>
@@ -118,5 +136,13 @@
 		</div>
 		<script src="common.js"></script>
 		<script src="chat.js"></script>
+		<script type="text/javascript">
+		  setInterval(function() {
+			var malus = $('.malus');
+			malus.style.opacity = (malus.style.opacity == 0 ? 1 : 0);
+			var bonus = $('.bonus');
+			bonus.style.opacity = (bonus.style.opacity == 0 ? 1 : 0);
+		  }, 1000); 
+		</script>
 	</body>
 </html>

@@ -20,6 +20,14 @@
 	background:yellow;
 }
 
+.bonus{
+	color: green;
+}
+
+.malus{
+	color: red;
+}
+
 @font-face {
     font-family: PokemonGb; 
     src: url(../font/PokemonGb-RAeo.ttf); /*URL to font*/
