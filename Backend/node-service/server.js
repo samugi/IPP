@@ -2,6 +2,7 @@ const express = require('express');
 var ks = require('node-key-sender');
 ks.setOption('globalDelayPressMillisec', 150);
 const app = express();
+var Queue = require('better-queue');
 
 var io = require('socket.io-client')
 var socket = io.connect('http://localhost:3000', {reconnect: true});
@@ -12,6 +13,23 @@ var raidWinner = "none";
 var duration = 0;
 var bmStartedTs = 0;
 
+var twitchCommandsQueue = new Queue(function (command, cb) {
+	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
+	ks.sendKey(command.joyPad);
+	cb();
+});
+var mixerCommandsQueue = new Queue(function (command, cb) {
+	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
+	ks.sendKey(command.joyPad);
+	cb();
+});
+var youtubeCommandsQueue = new Queue(function (command, cb) {
+	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
+	ks.sendKey(command.joyPad);
+	cb();
+});
+
+
 app.get('/send-command', (req, res) => {
   
     console.log(`Request coming from IP: ` + req.connection.remoteAddress);
@@ -19,12 +37,16 @@ app.get('/send-command', (req, res) => {
     var platform = req.query.platform;
     var user = req.query.user;
     var joyPad = req.query.joycommand
-    ks.sendKey(joyPad);
+	
+    //ks.sendKey(joyPad);
     if(platform == 'mixer'){
+	  twitchCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
       socket.emit('new_command_blue',{command: command, username: user})
     }else if(platform == 'twitch'){
+	  mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
       socket.emit('new_command_yellow',{command: command, username: user})
     }else if(platform == 'youtube'){
+	  youtubeCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
       socket.emit('new_command_red',{command: command, username: user})
     }
     console.log("Button: " + command + ", platform: " + platform + ", user: " + user);
