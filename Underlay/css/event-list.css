@@ -18,12 +18,77 @@ html, .widget-EventList li > div {
 .event-element {
     width: 100%;
     position: relative;
+	float:right;
 	-webkit-animation-name: growA;
 	-webkit-animation-duration: 1s;
 	animation-name: growA;
 	animation-duration: 1s;
 }
 
+#jolteon{
+	height:100px;
+	position: relative;
+	float:right;
+	right:-1000px;
+}
+#pika{
+	height:100px;
+	position: relative;
+	float:left;
+	left:-1000px;
+}
+
+.jrun{
+	-webkit-animation: run 10s ;
+	animation: run 10s ;
+	animation-timing-function:linear;
+}
+
+.lrun{
+	-webkit-animation: lrun 10s ;
+	animation: lrun 10s ;
+	animation-timing-function:linear;
+}
+
+@-webkit-keyframes run {
+    0% {
+        right:-1000px;
+    }
+
+    100% {
+        right: 2000px
+    }
+}
+
+@-webkit-keyframes lrun {
+    0% {
+        left:-1000px;
+    }
+
+    100% {
+        left: 2000px
+    }
+}
+
+@keyframes run {
+	0% {
+        right: -1000px;
+    }
+
+    100% {
+        right:2000px;
+    }
+}
+
+@keyframes lrun {
+	0% {
+        left: -1000px;
+    }
+
+    100% {
+        left:2000px;
+    }
+}
 
 @-webkit-keyframes growA {
     0% {
@@ -50,12 +115,12 @@ html, .widget-EventList li > div {
     100% {
         opacity: 1;
         font-size: 24px !important;
-        height: 34px
+        height: 34px;
     }
 }
 
 .tag {
-	float:right;
+	 float:right;
 	 font-size: 24px !important;
 }
 
