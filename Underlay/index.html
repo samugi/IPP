@@ -125,11 +125,23 @@
 					</div> 
 				</div>
 			</div>
-			<div class="row">
+			<div class="row bar-container">
 				<div class="col-xs-12">
-					<p id="progress-raid-text" >Raid bar loading...</p>
-					<div id="myProgress">
-						<div id="myBar"></div>
+					<div class="row">
+						<div class="col-xs-4">
+							<span id="progress-raid-text" >Raid bar loading...</span>
+						</div>
+						<div class="col-xs-8">
+							<img id="pika" src="C:\Users\s\Desktop\pika.gif" />
+							<img id="jolteon" src="C:\Users\s\Desktop\jolteon.gif" />
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="row" style= "margin-right: 0px;
+    margin-left: 0px;">
+						<div id="myProgress">
+							<div id="myBar"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -140,7 +152,21 @@
 		  setInterval(function() {
 			$('.malus').css("opacity", $('.malus').css("opacity") == 0 ? 1 : 0);
 			$('.bonus').css("opacity", $('.bonus').css("opacity") == 0 ? 1 : 0);
-		  }, 500); 
+		  }, 500);
+		  setInterval(function(){
+			$('#jolteon').removeClass("jrun");
+			setTimeout(function(){
+				$('#jolteon').addClass("jrun");
+			},500);
+		  }, 60000);
+		  setTimeout(function(){
+			  setInterval(function(){
+				$('#pika').removeClass("lrun");
+				setTimeout(function(){
+					$('#pika').addClass("lrun");
+				},500);
+			  }, 60000);
+		  },30000);
 		</script>
 	</body>
 </html>
