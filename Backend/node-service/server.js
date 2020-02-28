@@ -13,19 +13,34 @@ var raidWinner = "none";
 var duration = 0;
 var bmStartedTs = 0;
 
+var twitchQueueSize, mixerQueueSize, youtubeQueueSize = 0;
+var queueSizeLimit = 23;
+
 var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
-	ks.sendKey(command.joyPad);
+  ks.sendKey(command.joyPad);
+  socket.emit('new_command_yellow',{command: command, username: user})
+  twitchQueueSize--;
 	cb();
+}, {
+  filter: function(input, cb){
+    if(twitchQueueSize > queueSizeLimit)
+      return cb("not_allowed");
+    twitchQueueSize++;
+    return cb(null, input);
+  }
 });
 var mixerCommandsQueue = new Queue(function (command, cb) {
+  mixerQueueSize++;
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
-	ks.sendKey(command.joyPad);
+  ks.sendKey(command.joyPad);
+  socket.emit('new_command_blue',{command: command, username: user})
 	cb();
 });
 var youtubeCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
-	ks.sendKey(command.joyPad);
+  ks.sendKey(command.joyPad);
+  socket.emit('new_command_red',{command: command, username: user})
 	cb();
 });
 
@@ -39,15 +54,12 @@ app.get('/send-command', (req, res) => {
     var joyPad = req.query.joycommand
 	
     //ks.sendKey(joyPad);
-    if(platform == 'mixer'){
-	  twitchCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
-      socket.emit('new_command_blue',{command: command, username: user})
-    }else if(platform == 'twitch'){
-	  mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
-      socket.emit('new_command_yellow',{command: command, username: user})
+    if(platform == 'twitch'){
+	    twitchCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+    }else if(platform == 'mixer'){
+	    mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
     }else if(platform == 'youtube'){
-	  youtubeCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
-      socket.emit('new_command_red',{command: command, username: user})
+	    youtubeCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
     }
     console.log("Button: " + command + ", platform: " + platform + ", user: " + user);
     res.json({bm:bm, raidWinner:raidWinner, bmStartedTs:bmStartedTs, duration:duration});
