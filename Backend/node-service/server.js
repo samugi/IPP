@@ -19,7 +19,7 @@ var queueSizeLimit = 23;
 var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
-  socket.emit('new_command_yellow',{command: command, username: user})
+  socket.emit('new_command_yellow',{command: command.command, username: command.user})
   twitchQueueSize--;
 	cb();
 }, {
@@ -34,13 +34,13 @@ var mixerCommandsQueue = new Queue(function (command, cb) {
   mixerQueueSize++;
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
-  socket.emit('new_command_blue',{command: command, username: user})
+  socket.emit('new_command_blue',{command: command.command, username: command.user})
 	cb();
 });
 var youtubeCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
-  socket.emit('new_command_red',{command: command, username: user})
+  socket.emit('new_command_red',{command: command.command, username: command.user})
 	cb();
 });
 
