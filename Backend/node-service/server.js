@@ -20,18 +20,9 @@ var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
   socket.emit('new_command_yellow',{command: command.command, username: command.user})
-
   twitchQueueSize--;
 	cb();
-}, {
-  afterProcessDelay: 150, 
-  filter: function(input, cb){
-    if(twitchQueueSize > queueSizeLimit)
-      return cb("not_allowed");
-    twitchQueueSize++;
-    return cb(null, input);
-  }
-});
+}, {afterProcessDelay: 150});
 var mixerCommandsQueue = new Queue(function (command, cb) {
   mixerQueueSize++;
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
@@ -57,7 +48,12 @@ app.get('/send-command', (req, res) => {
 	
     //ks.sendKey(joyPad);
     if(platform == 'twitch'){
-	    twitchCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+      if(twitchQueueSize < queueSizeLimit){
+        twitchCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+        twitchQueueSize++;
+      }else{
+        console.log("adesso lo scarto perche e lungo " + twitchQueueSize)
+      }
     }else if(platform == 'mixer'){
 	    mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
     }else if(platform == 'youtube'){
