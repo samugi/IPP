@@ -16,7 +16,7 @@ var bmStartedTs = 0;
 var twitchQueueSize = 0;
 var mixerQueueSize = 0
 var youtubeQueueSize = 0;
-var queueSizeLimit = 100;
+var queueSizeLimit = 30;
 
 var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
@@ -26,7 +26,6 @@ var twitchCommandsQueue = new Queue(function (command, cb) {
 	cb();
 }, {afterProcessDelay: 150});
 var mixerCommandsQueue = new Queue(function (command, cb) {
-  mixerQueueSize++;
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
   socket.emit('new_command_blue',{command: command.command, username: command.user})
