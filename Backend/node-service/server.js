@@ -13,8 +13,10 @@ var raidWinner = "none";
 var duration = 0;
 var bmStartedTs = 0;
 
-var twitchQueueSize, mixerQueueSize, youtubeQueueSize = 0;
-var queueSizeLimit = 23;
+var twitchQueueSize = 0;
+var mixerQueueSize = 0
+var youtubeQueueSize = 0;
+var queueSizeLimit = 100;
 
 var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
@@ -28,18 +30,19 @@ var mixerCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
   socket.emit('new_command_blue',{command: command.command, username: command.user})
+  mixerQueueSize--;
 	cb();
-});
+}, {afterProcessDelay: 150});
 var youtubeCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
   socket.emit('new_command_red',{command: command.command, username: command.user})
+  youtubeQueueSize--;
 	cb();
-});
+}, {afterProcessDelay: 150});
 
 
 app.get('/send-command', (req, res) => {
-  
     console.log(`Request coming from IP: ` + req.connection.remoteAddress);
     var command = req.query.command;
     var platform = req.query.platform;
@@ -55,9 +58,19 @@ app.get('/send-command', (req, res) => {
         console.log("adesso lo scarto perche e lungo " + twitchQueueSize)
       }
     }else if(platform == 'mixer'){
-	    mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+      if(mixerQueueSize < queueSizeLimit){
+        mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+        mixerQueueSize++;
+      }else{
+        console.log("adesso lo scarto perche e lungo " + mixerQueueSize)
+      }
     }else if(platform == 'youtube'){
-	    youtubeCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+      if(youtubeQueueSize < queueSizeLimit){
+        youtubeCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+        youtubeQueueSize++;
+      }else{
+        console.log("adesso lo scarto perche e lungo " + youtubeQueueSize)
+      }
     }
     console.log("Button: " + command + ", platform: " + platform + ", user: " + user);
     res.json({bm:bm, raidWinner:raidWinner, bmStartedTs:bmStartedTs, duration:duration});
