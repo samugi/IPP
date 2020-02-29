@@ -16,7 +16,7 @@ var bmStartedTs = 0;
 var twitchQueueSize = 0;
 var mixerQueueSize = 0
 var youtubeQueueSize = 0;
-var queueSizeLimit = 30;
+var queueSizeLimit = 100;
 
 var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
