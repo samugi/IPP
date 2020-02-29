@@ -20,9 +20,11 @@ var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
   ks.sendKey(command.joyPad);
   socket.emit('new_command_yellow',{command: command.command, username: command.user})
+
   twitchQueueSize--;
 	cb();
 }, {
+  afterProcessDelay: 150, 
   filter: function(input, cb){
     if(twitchQueueSize > queueSizeLimit)
       return cb("not_allowed");
