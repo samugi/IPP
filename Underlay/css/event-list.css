@@ -122,10 +122,18 @@ html, .widget-EventList li > div {
 .tag {
 	 float:right;
 	 font-size: 24px !important;
+	 padding:5px;
 }
 
 .from{
-	 font-size: 24px !important;
+	font-size: 24px !important;
+	overflow: hidden;
+    white-space: nowrap;
+    max-width: 250px;
+    display: block;
+    float: left;
+    text-overflow: ellipsis;
+	padding:5px;
 }
 
 .widget-EventList .message {
