@@ -158,9 +158,7 @@ function sendCommandByFakeUser(command, user, platform, joyCommand){
 	request.get('http://localhost:8080/send-command?command='+command+'&user='+user+'&platform='+platform+'&joycommand='+joyCommand,
 		function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				if(logLevel >= DEBUG){
-					console.log(body);
-				}
+				console.log(body);
 			}
 	});
 
