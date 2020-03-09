@@ -43,7 +43,7 @@ function userGenerator(){
 	var nickname = nicknameGenerator();
 	var platform = platforms[parseInt(Math.random()*3)];
 	var lifeTime = Math.random()*(ONE_HOUR/2) + ONE_SECOND*10;
-	var pollingInterval = Math.random()*ONE_SECOND*10;
+	var pollingInterval = Math.random()*ONE_SECOND*10+ 2000;
 	
 	var idUser = setInterval(function(){
 		
