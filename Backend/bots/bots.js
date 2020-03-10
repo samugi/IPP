@@ -45,30 +45,15 @@ function userGenerator(){
 	var platform = platforms[parseInt(Math.random()*3)];
 	var lifeTime = Math.random()*(ONE_HOUR/2) + ONE_SECOND*10;
 	var pollingInterval = Math.random()*ONE_SECOND*10+ minTimeCommands;
+	var personality = getPersonality();
 	
 	var idUser = setInterval(function(){
 		
-		var commandDecisator = parseInt(Math.random()*100);
-		var command = "";
+		if(parseInt(Math.random()*100) > 98){
+			personality = getPersonality();
+		}
 		
-		if(commandDecisator < 3){
-			command = "SELECT";
-		}else if(commandDecisator < 8){
-			command = "START";
-		}else if(commandDecisator < 40){
-			command = "A";
-		}else if(commandDecisator < 52){
-			command = "B";
-		}else if(commandDecisator < 64){
-			command = "UP";
-		}else if(commandDecisator < 76){
-			command = "LEFT";
-		}else if(commandDecisator < 88){
-			command = "RIGHT";
-		}else if(commandDecisator <= 100){
-			command = "DOWN";
-		} 
-		
+		var command = personality();		
 		var joyCommand = commandGenerator(platform,command);
 		
 		sendCommandByFakeUser(command, nickname, platform, joyCommand);
@@ -155,6 +140,153 @@ function commandGenerator(platform,command){
 	
 	}
 	return "ghe sboro";
+}
+
+function getPersonality(){
+	
+	var personalityDecisator = parseInt(Math.random()*100);
+	
+	var normalPersonality = function(){
+		var commandDecisator = parseInt(Math.random()*100);
+		if(commandDecisator < 3){
+			command = "SELECT";
+		}else if(commandDecisator < 8){
+			command = "START";
+		}else if(commandDecisator < 40){
+			command = "A";
+		}else if(commandDecisator < 52){
+			command = "B";
+		}else if(commandDecisator < 64){
+			command = "UP";
+		}else if(commandDecisator < 76){
+			command = "LEFT";
+		}else if(commandDecisator < 88){
+			command = "RIGHT";
+		}else if(commandDecisator <= 100){
+			command = "DOWN";
+		}
+		return command;
+	}
+	
+	var fighter = function(){
+		var commandDecisator = parseInt(Math.random()*100);
+		if(commandDecisator < 50){
+			command = "A";
+		}else if(commandDecisator < 70){
+			command = "UP";
+		}else if(commandDecisator < 90){
+			command = "DOWN";
+		}else if(commandDecisator < 95){
+			command = "RIGHT";
+		}else if(commandDecisator <= 100){
+			command = "LEFT";
+		}
+		return command;
+	}
+	
+	var travelerA = function(){
+		
+		var commandDecisator = parseInt(Math.random()*100);
+	
+		if(commandDecisator < 60){
+			command = "LEFT";
+		}else if(commandDecisator < 80){
+			command = "RIGHT";
+		}else if(commandDecisator < 90){
+			command = "DOWN";
+		}else if(commandDecisator < 100){
+			command = "UP";
+		}	
+		
+		return command;
+	}
+	
+	var travelerB = function(){
+		
+		var commandDecisator = parseInt(Math.random()*100);
+	
+		if(commandDecisator < 60){
+			command = "RIGHT";
+		}else if(commandDecisator < 80){
+			command = "LEFT";
+		}else if(commandDecisator < 90){
+			command = "DOWN";
+		}else if(commandDecisator < 100){
+			command = "UP";
+		}	
+		
+		return command;
+	}
+	
+	var travelerC = function(){
+		
+		var commandDecisator = parseInt(Math.random()*100);
+	
+		if(commandDecisator < 60){
+			command = "DOWN";
+		}else if(commandDecisator < 80){
+			command = "RIGHT";
+		}else if(commandDecisator < 90){
+			command = "LEFT";
+		}else if(commandDecisator < 100){
+			command = "UP";
+		}	
+		
+		return command;
+	}
+	
+	var travelerD = function(){
+		
+		var commandDecisator = parseInt(Math.random()*100);
+	
+		if(commandDecisator < 60){
+			command = "UP";
+		}else if(commandDecisator < 80){
+			command = "RIGHT";
+		}else if(commandDecisator < 90){
+			command = "DOWN";
+		}else if(commandDecisator < 100){
+			command = "LEFT";
+		}	
+		
+		return command;
+	}
+	
+	var speaker = function(){
+		var commandDecisator = parseInt(Math.random()*100);
+		if(commandDecisator < 40){
+			command = "A";
+		}else if(commandDecisator < 80){
+			command = "B";
+		}else if(commandDecisator < 90){
+			command = "UP";
+		}else if(commandDecisator < 100){
+			command = "DOWN";
+		}
+		return command;
+	}
+	
+	if(personalityDecisator < 25){
+		return normalPersonality;
+	}else if(personalityDecisator < 50){
+		return speaker;
+	}else if(personalityDecisator < 75){
+		return fighter;
+	}else if(personalityDecisator < 100){
+		var travelDecisator =  parseInt(Math.random()*10);
+		if(travelDecisator < 25){
+			return travelerA;
+		}else if(travelDecisator < 50){
+			return travelerB;
+		}else if(travelDecisator < 75){
+			return travelerC;
+		}else if(travelDecisator < 100){
+			return travelerD;
+		}
+	}
+	
+	return normalPersonality;
+	
 }
 
 function capitalizeFirstLetter(string) {
