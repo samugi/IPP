@@ -9,9 +9,10 @@ var platforms = ['twitch','youtube','mixer'];
 var ONE_SECOND = 1000;
 var ONE_MINUTE = ONE_SECOND*60;
 var ONE_HOUR = ONE_MINUTE*60;
-var minUsers = 3;
+var minUsers = 6;
 var maxUsers = 10;
 var usersAlive = 0;
+var minTimeCommands = 4000;
 
 var numUsers = parseInt(Math.random() * (maxUsers - minUsers) + minUsers);
 	
@@ -43,7 +44,7 @@ function userGenerator(){
 	var nickname = nicknameGenerator();
 	var platform = platforms[parseInt(Math.random()*3)];
 	var lifeTime = Math.random()*(ONE_HOUR/2) + ONE_SECOND*10;
-	var pollingInterval = Math.random()*ONE_SECOND*10+ 2000;
+	var pollingInterval = Math.random()*ONE_SECOND*10+ minTimeCommands;
 	
 	var idUser = setInterval(function(){
 		
