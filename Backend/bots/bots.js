@@ -86,7 +86,7 @@ function nicknameGenerator(){
 	
 	var nickname = "";
 	
-	var decisator = parseInt(Math.random()*6);
+	var decisator = parseInt(Math.random()*10);
 	if(decisator == 0){
 		nickname = capitalizeFirstLetter(adjectives.adjectives[parseInt(Math.random()*adjectives.adjectives.length)]) + capitalizeFirstLetter(nouns.nouns[parseInt(Math.random()*nouns.nouns.length)]) + (parseInt(Math.random()*99));
 	}else if(decisator == 1){
@@ -104,6 +104,14 @@ function nicknameGenerator(){
 		nickname = capitalizeFirstLetter(adjectives.adjectives[index].substring(parseInt(Math.random()*adjectives.adjectives[index].length-1))) + capitalizeFirstLetter(nouns.nouns[index2].substring(parseInt(Math.random()*nouns.nouns[index2].length-1))) + (parseInt(Math.random()*99));
 	}else if(decisator == 6){
 		nickname = "_" + adjectives.adjectives[parseInt(Math.random()*adjectives.adjectives.length)].toUpperCase() + capitalizeFirstLetter(nouns.nouns[parseInt(Math.random()*nouns.nouns.length)]) + (parseInt(Math.random()*99));
+	}else if(decisator == 7){
+		nickname = "_" + adjectives.adjectives[parseInt(Math.random()*adjectives.adjectives.length)].toUpperCase() + "_" + adjectives.adjectives[parseInt(Math.random()*adjectives.adjectives.length)].toUpperCase() + capitalizeFirstLetter(nouns.nouns[parseInt(Math.random()*nouns.nouns.length)]) + (parseInt(Math.random()*99));
+	}else if(decisator == 8){
+		var index = parseInt(Math.random()*adjectives.adjectives.length);
+		var index2 = parseInt(Math.random()*nouns.nouns.length);
+		nickname = capitalizeFirstLetter(adjectives.adjectives[index].substring(parseInt(Math.random()*adjectives.adjectives[index].length-1))) + capitalizeFirstLetter(nouns.nouns[index2].substring(parseInt(Math.random()*nouns.nouns[index2].length-1))) + (parseInt(Math.random()*9999));
+	}else if(decisator == 9){
+		nickname = adjectives.adjectives[parseInt(Math.random()*adjectives.adjectives.length)].toUpperCase() + capitalizeFirstLetter(nouns.nouns[parseInt(Math.random()*nouns.nouns.length)]) + (parseInt(Math.random()*99));
 	}
 	
 	return nickname;
