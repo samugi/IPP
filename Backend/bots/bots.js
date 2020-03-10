@@ -47,7 +47,6 @@ function userGenerator(){
 	
 	var idUser = setInterval(function(){
 		
-		pollingInterval = Math.random()*ONE_SECOND*10 + 2000;
 		var commandDecisator = parseInt(Math.random()*100);
 		var command = "";
 		
