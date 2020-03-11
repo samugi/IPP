@@ -12,7 +12,7 @@ function progressBarTick(){
 		
 		$("#myBar").width(progressValue + '%');
 		
-		if(progressValue == 100){
+		if(progressValue >= 100){
 			progressValue = 0;
 			raidFreeze = true;
 			$.get( "http://localhost:8080/setraid", function( data ) {
