@@ -2,6 +2,7 @@ const express = require('express');
 var ks = require('node-key-sender');
 ks.setOption('globalDelayPressMillisec', 150);
 const app = express();
+var fs = require('fs');
 var http = require('http')
 var https = require('https')
 var Queue = require('better-queue');
