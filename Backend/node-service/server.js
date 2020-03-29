@@ -2,8 +2,12 @@ const express = require('express');
 var ks = require('node-key-sender');
 ks.setOption('globalDelayPressMillisec', 150);
 const app = express();
+var http = require('http')
+var https = require('https')
 var Queue = require('better-queue');
-
+var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 var io = require('socket.io-client')
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 var raidReady = false;
@@ -100,7 +104,12 @@ app.get('/setraid', (req, res) => {
 });
 
 // Listen to the App Engine-specified port, or 8080 otherwise
-const PORT = process.env.PORT || 8080;
+/*const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
-});
+});*/
+
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8080);
+httpsServer.listen(8443)
