@@ -22,6 +22,19 @@ var twitchQueueSize = 0;
 var mixerQueueSize = 0
 var youtubeQueueSize = 0;
 var queueSizeLimit = 100;
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://mizane:R4izarulez@clusteripp-qugaa.gcp.mongodb.net/test?retryWrites=true&w=majority";
+
+
+MongoClient.connect(uri, function (err, clientMongo) {
+		try {
+			if (err) throw err;
+			dbMongoVolante = clientMongo.db('test');
+		}catch(err){
+		}
+	}
+);
+
 
 var twitchCommandsQueue = new Queue(function (command, cb) {
 	console.log("Command: " + command.command + ", platform: " + command.platform + ", user: " + command.user + ", buttonPressed:" + command.joyPad);
@@ -54,28 +67,34 @@ app.get('/send-command', (req, res) => {
     var joyPad = req.query.joycommand
 	
     //ks.sendKey(joyPad);
-    if(platform == 'twitch'){
+    if(platform == 'twitch' || platform == 'app-twitch'){
+	  var platformQueue = 'twitch';
       if(twitchQueueSize < queueSizeLimit){
-        twitchCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+        twitchCommandsQueue.push({command:command, platform:platformQueue, user:user, joyPad:joyPad});
         twitchQueueSize++;
       }else{
         console.log("adesso lo scarto perche e lungo " + twitchQueueSize)
       }
-    }else if(platform == 'mixer'){
+    }else if(platform == 'mixer' || platform == 'app-mixer'){
+	  var platformQueue = 'mixer';
       if(mixerQueueSize < queueSizeLimit){
-        mixerCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+        mixerCommandsQueue.push({command:command, platform:platformQueue, user:user, joyPad:joyPad});
         mixerQueueSize++;
       }else{
         console.log("adesso lo scarto perche e lungo " + mixerQueueSize)
       }
-    }else if(platform == 'youtube'){
+    }else if(platform == 'youtube' || platform == 'app-youtube'){
+	  var platformQueue = 'youtube';
       if(youtubeQueueSize < queueSizeLimit){
-        youtubeCommandsQueue.push({command:command, platform:platform, user:user, joyPad:joyPad});
+        youtubeCommandsQueue.push({command:command, platform:platformQueue, user:user, joyPad:joyPad});
         youtubeQueueSize++;
       }else{
         console.log("adesso lo scarto perche e lungo " + youtubeQueueSize)
       }
     }
+	
+	logCommandToDb(user, platform, command);
+	
     console.log("Button: " + command + ", platform: " + platform + ", user: " + user);
     res.json({bm:bm, raidWinner:raidWinner, bmStartedTs:bmStartedTs, duration:duration});
 });
@@ -113,4 +132,22 @@ app.listen(PORT, () => {
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 httpServer.listen(8080);
-httpsServer.listen(8443)
+httpsServer.listen(8443);
+
+function logCommandToDb(username, platform, command){
+	try{
+		dbMongoVolante.collection('LOG_COMMAND').insertOne({"username": username, "platform": platform, "command": command, "timestamp": new Date().getTime()}, function (findErr, result) {
+			if (findErr) throw findErr;
+			if(logLevel >= DEBUG){
+				console.log("log_command result:" + result);
+			}
+			if(logLevel >= TRACE){
+				console.log("stored command in db: username: " + username +", platform: "+ platform +", command: "+ command);
+			}
+		});
+	}catch(err){
+		if(logLevel >= ERROR){
+			console.log(err + " e ghe sboro");
+		}
+	}
+}
